@@ -66,6 +66,11 @@ export default function Home() {
                 <section className="gallery" data-aos="fade-up">
                     <h1>Inspiring Members</h1>
                     <div className="gallery-container">
+                    <div class="text-content">
+                        <div class="quote">"GDSC revolutionized the way I work with its innovative and user-friendly products."</div>
+                        <div class="reviewer">- Some Random Review</div>
+                        <a href="#" class="cta-link">See More of Stranger's Story →</a>
+                        </div>
                     </div>
                 </section>
 
