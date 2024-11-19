@@ -81,9 +81,10 @@ ul {
 
 .top-left img {
     cursor: pointer;
-    height: 3.5vh;
+    height: 3vh;
     width: 9vh;
     object-fit: contain;
+    padding-top: 1.2vh;
 }
 
 .top-center {
