@@ -9,7 +9,7 @@
 
 .nav-bar {
     display: flex;
-    height: 10vh;
+    height: 8vh;
     align-items: center;
     flex-direction: row;
     width: 100%;
@@ -24,7 +24,7 @@
 
 .nav-bar.active {
     display: flex;
-    height: 10vh;
+    height: 8vh;
     align-items: center;
     flex-direction: row;
     width: 100%;
@@ -46,14 +46,14 @@ ul {
     font-family: "Google-Sans";
     cursor: pointer;
     text-decoration: none;
-    border: 0.6vh solid transparent;
-    padding-top: 1.3vh;
-    padding-bottom: 1.3vh;
-    padding-left: 2.7vh;
-    padding-right: 2.7vh;
+    border: 0.8vh solid transparent;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+    padding-left: 1.3vh;
+    padding-right: 1.5vh;
     border-radius: 5vh;
     transition: font-weight, background-color, 0.15s;
-    font-size: 3vh;
+    font-size: 1.5vh;
     font-weight: bold;
 }   
 
@@ -81,7 +81,7 @@ ul {
 
 .top-left img {
     cursor: pointer;
-    height: 9vh;
+    height: 3.5vh;
     width: 9vh;
     object-fit: contain;
 }
@@ -123,8 +123,8 @@ ul {
     flex-shrink: 1;
     padding-top: 1.5vh;
     padding-bottom: 1.5vh;
-    padding-left: 3.1vh;
-    padding-right: 3.1vh;
+    padding-left: 1.5vh;
+    padding-right: 1.5vh;
     border-width: 1.4vh;
     border: 0.2vh solid #242424;
     border-radius: 7vh;
@@ -132,7 +132,7 @@ ul {
     cursor: pointer;
     font-weight: 700;
     transition: background-color, color, 0.15s;
-    font-size: 2.4vh;
+    font-size: 1.5vh;
 }
 
 .reg-btn:hover {
@@ -143,8 +143,8 @@ ul {
 .reg-btn.active {
     padding-top: 1.5vh;
     padding-bottom: 1.5vh;
-    padding-left: 3.1vh;
-    padding-right: 3.1vh;
+    padding-left: 2;
+    padding-right: 2;
     border-width: 1.4vh;
     border: 0.2vh solid #498CF6;
     color: #498CF6;

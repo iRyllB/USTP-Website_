@@ -72,29 +72,29 @@ html {
     -webkit-background-clip: text;
     font-family: "Google-Sans";
     -webkit-text-fill-color: transparent;
-    font-size: 9vh;
+    font-size: 8vh;
     font-weight: bolder;
     line-height: normal;
 }
 
 .banner h1 {
     color: #383838;
-    font-size: 9vh;
+    font-size: 8vh;
     font-weight: bold;
     display: flex;
     font-family: "Google-Sans";
     justify-content: center;
     align-items: center;
-    margin-bottom: 2.4vh;
+    margin-bottom: 2.3vh;
 }
 
 .banner p {
-    font-size: 4vh;
+    font-size: 3vh;
     padding-top: 12px;
 }
 
 .banner button {
-    padding: 2vh 2.3vh;
+    padding: 1vh 1.5vh;
     border: none;
     border-radius: 3vh;
     background-color: rgba(255, 255, 255, 0.4);
@@ -103,7 +103,7 @@ html {
     font-weight: 700;
     transition: background-color 0.35s;
     margin-top: 1.5vh;
-    font-size: 2.4vh;
+    font-size: 2vh;
 }
 
 .banner button:hover {
@@ -142,7 +142,7 @@ html {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-bottom: 4vh; 
+    margin-bottom: 3vh; 
     flex-wrap: wrap; 
 }
 
