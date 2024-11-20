@@ -26,35 +26,31 @@
                 <section className="section-1">
                 <div className="section-1-container">
                 <h1>Ongoing Events</h1>
+                <div className="card-container">
+                    <div className="card">
+                        <img src={Sample}/>
+                        <div className="card-content">
+                            <h3 className="card-title">Lorem ipsum dolor sit amet</h3>
+                            <p className="card-registration">📅 Registration Ends at 12:00 PM</p>
+                            <p className="card-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
+                            </p>
+                            <a href="#" className="card-button">RSVP</a>
+                        </div>
+                    </div>
 
-
-            
-
-            <div class="card">
-            <img src={Sample}/>
-            <div class="card-content">
-                <h3 class="card-title">Lorem ipsum dolor sit amet</h3>
-                <p class="card-registration">📅 Registration Ends at 12:00 PM</p>
-                <p class="card-description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
-                </p>
-                <a href="#" class="card-button">RSVP</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src={Sample}/>
-            <div class="card-content">
-                <h3 class="card-title">Lorem ipsum dolor sit amet</h3>
-                <p class="card-registration">📅 Registration Ends at 12:00 PM</p>
-                <p class="card-description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
-                </p>
-                <a href="#" class="card-button">RSVP</a>
-            </div>
-        </div>
-
-
+                    <div className="card">
+                        <img src={Sample}/>
+                        <div className="card-content">
+                            <h3 className="card-title">Lorem ipsum dolor sit amet</h3>
+                            <p className="card-registration">📅 Registration Ends at 12:00 PM</p>
+                            <p className="card-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
+                            </p>
+                            <a href="#" className="card-button">RSVP</a>
+                        </div>
+                    </div>
+                </div>
 
     </div>
 
