@@ -17,7 +17,10 @@ export default function Home() {
             <NavigationBar />
             <main>
                 <header className="banner">
-                    <h1>Building Good Things,&nbsp;<span id="gradient">Together!</span></h1>
+                    <h1>
+                        <span>Building Good Things, </span>
+                        <span id="gradient">&nbsp;Together!</span>
+                    </h1>
                     <p id="tagline">Rorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <button>
                         Learn More
@@ -66,6 +69,11 @@ export default function Home() {
                 <section className="gallery" data-aos="fade-up">
                     <h1>Inspiring Members</h1>
                     <div className="gallery-container">
+                    <div class="text-content">
+                        <div class="quote">"GDSC revolutionized the way I work with its innovative and user-friendly products."</div>
+                        <div class="reviewer">- Some Random Review</div>
+                        <a href="#" class="cta-link">See More of Stranger's Story →</a>
+                        </div>
                     </div>
                 </section>
 

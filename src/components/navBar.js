@@ -5,6 +5,11 @@ import Logo from '../assets/logo.png'
 
 export default function NavigationBar() {
     const [navbar, setNavbar] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen)
+    }
 
     const changeBackground = () => {
         if (window.scrollY >= 300) {
@@ -68,32 +73,42 @@ export default function NavigationBar() {
                 </NavLink>
             </div>
 
-            <div className='top-center'>
+            <div className="hamburger" onClick={toggleMenu}>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div className={`top-center ${isOpen ? 'mobile-menu-active' : ''}`}>
                 <ul>
                     <li>
-                        <NavLink style={NavLinkStyle} to="/" className='items'>Home</NavLink>
+                        <NavLink style={NavLinkStyle} to="/" className='items' onClick={() => setIsOpen(false)}>Home</NavLink>
                     </li>
 
                     <li>
-                        <NavLink style={NavLinkStyleTwo} to="/aboutus" className='items'>About us</NavLink>
+                        <NavLink style={NavLinkStyleTwo} to="/aboutus" className='items' onClick={() => setIsOpen(false)}>About us</NavLink>
                     </li>
 
                     <li>
-                        <NavLink style={NavLinkStyleThree} to="/news" className='items'>News</NavLink>
+                        <NavLink style={NavLinkStyleThree} to="/news" className='items' onClick={() => setIsOpen(false)}>News</NavLink>
                     </li>
 
                     <li>
-                        <NavLink style={NavLinkStyleFour} to="/events" className='items'>Events</NavLink>
+                        <NavLink style={NavLinkStyleFour} to="/events" className='items' onClick={() => setIsOpen(false)}>Events</NavLink>
+                    </li>
+                    
+                    <li className="mobile-register">
+                        <button className={navbar ? "reg-btn active" : "reg-btn"}>
+                            Register Now
+                        </button>
                     </li>
                 </ul>
             </div>
 
-            <div className='top-left'>
+            <div className='top-right'>
                 <button className={navbar ? "reg-btn active" : "reg-btn"}>
                     Register Now
                 </button>
-                <div>
-                </div>
             </div>
         </nav>
     )
