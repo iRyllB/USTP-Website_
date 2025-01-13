@@ -116,18 +116,7 @@ html {
 
 /* Style for section one which covers the about us description and team description */
 
-/* Section-1 container */
-.section-1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3vh 0;
-    border-radius: 30px 30px 0 0;
-    background-color: white;
-    border: none;
-    margin-top: -20px;
 
-}
 
 .section-1-container {
     display: flex;

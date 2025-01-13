@@ -85,9 +85,7 @@ export default function NavigationBar() {
                         <NavLink style={NavLinkStyle} to="/" className='items' onClick={() => setIsOpen(false)}>Home</NavLink>
                     </li>
 
-                    <li>
-                        <NavLink style={NavLinkStyleTwo} to="/aboutus" className='items' onClick={() => setIsOpen(false)}>About us</NavLink>
-                    </li>
+                    
 
                     <li>
                         <NavLink style={NavLinkStyleThree} to="/news" className='items' onClick={() => setIsOpen(false)}>News</NavLink>
@@ -96,7 +94,9 @@ export default function NavigationBar() {
                     <li>
                         <NavLink style={NavLinkStyleFour} to="/events" className='items' onClick={() => setIsOpen(false)}>Events</NavLink>
                     </li>
-                    
+                    <li>
+                        <NavLink style={NavLinkStyleTwo} to="/aboutus" className='items' onClick={() => setIsOpen(false)}>About us</NavLink>
+                    </li>
                     <li className="mobile-register">
                         <button className={navbar ? "reg-btn active" : "reg-btn"}>
                             Register Now

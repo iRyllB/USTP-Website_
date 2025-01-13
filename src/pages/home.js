@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import NavigationBar from "../components/navBar";
 import Footer from "../components/footer";
 import './home.css';
+import './main.css'
 import About from '../assets/sample.png';
 import { Link } from "react-router-dom";
 import AOS from 'aos';
@@ -55,7 +56,7 @@ export default function Home() {
                     </div>
                 </section>
 
-                {}
+                
                 <section className="trusted" data-aos="fade-up">
                     <h1>Trusted by People</h1>
                     <div className="trusted-logos">

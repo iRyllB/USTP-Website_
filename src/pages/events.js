@@ -2,6 +2,7 @@
     import NavigationBar from "../components/navBar";
     import Footer from "../components/footer";
     import './events.css'; 
+    import './main.css'
     import Sample from '../assets/sample.png';
 
     import AOS from 'aos';
