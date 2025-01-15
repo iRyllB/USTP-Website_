@@ -41,21 +41,20 @@ cd USTP-Website
 npm install
 ```
 
-Create a `.env` file in the root directory with the following variables:
-```
-REACT_APP_SUPABASE_URL=your_supabase_url
-REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
+Rename `.env.sample` to `.env` and fill with the appropriate values. Please contact me for this.
+
+However, If you want to create your own supabase instance, copy and execute all .sql files on `/sql` directory to supabase sql editor to setup RLS and table policies.
+
 
 ## Usage
 
 Once the dependencies are installed, start the development server:
 
 ```bash
-npm start
+npm run start
 ```
 
-This will launch the website locally at `http://localhost:3000/`. Any changes made to the source code will trigger a live reload of the site.
+This will launch the website locally at `http://localhost:5000/` (or whatever port is set on `.env`). Any changes made to the source code will trigger a live reload of the site.
 
 For production builds, run:
 
