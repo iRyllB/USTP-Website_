@@ -66,7 +66,7 @@ This creates a production-ready version of the website in the `build` folder.
 
 ## CMS Development
 
-CMS Admin interface is accessible in `/admin` endpoint.
+CMS Admin interface is accessible in `/admin` endpoint. [HERE](https://gdsc-ustp.vercel.app/admin/login)
 
 The CMS provides a secure admin interface for managing content:
 - Event Management: Create, update, and delete events
