@@ -66,6 +66,8 @@ This creates a production-ready version of the website in the `build` folder.
 
 ## CMS Development
 
+CMS Admin interface is accessible in `/admin` endpoint.
+
 The CMS provides a secure admin interface for managing content:
 - Event Management: Create, update, and delete events
 - Blog Posts: Rich text editor with image upload support
