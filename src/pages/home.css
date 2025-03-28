@@ -13,7 +13,6 @@ body {
 html {
     scroll-behavior: smooth;
 }
-
 /* Custom font face */
 @font-face { 
     font-family: 'Google-Sans';

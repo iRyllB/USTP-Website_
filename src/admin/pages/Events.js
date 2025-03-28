@@ -96,7 +96,7 @@ const EventEditor = ({ formData, setFormData, handleSubmit, handleCloseModal, ha
                             <div className="form-group">
                                 <label htmlFor="event_date">Event Date</label>
                                 <input
-                                    type="date"
+                                    type="datetime-local"
                                     id="event_date"
                                     name="event_date"
                                     value={formData.event_date}
@@ -118,6 +118,19 @@ const EventEditor = ({ formData, setFormData, handleSubmit, handleCloseModal, ha
                                     <option value="Completed">Completed</option>
                                     <option value="Cancelled">Cancelled</option>
                                 </select>
+                            </div>
+                            
+                            <div className="form-group">
+                                <label htmlFor="rsvp_link">RSVP Link (Optional)</label>
+                                <input
+                                    type="url"
+                                    id="rsvp_link"
+                                    name="rsvp_link"
+                                    value={formData.rsvp_link || ''}
+                                    onChange={handleInputChange}
+                                    placeholder="https://example.com/rsvp"
+                                    className="full-width-input"
+                                />
                             </div>
                         </div>
                         
@@ -203,7 +216,8 @@ export default function Events() {
         description: '',
         image_url: '',
         status: 'Upcoming',
-        event_date: ''
+        event_date: '',
+        rsvp_link: ''
     });
     const [isDragging, setIsDragging] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
@@ -531,7 +545,8 @@ export default function Events() {
             description: event.description,
             image_url: event.image_url || '',
             status: event.status,
-            event_date: event.event_date ? formatDateForInput(event.event_date) : ''
+            event_date: event.event_date ? formatDateForInput(event.event_date) : '',
+            rsvp_link: event.rsvp_link || ''
         });
         setEditMode('modal');
         setIsModalOpen(true);
@@ -543,7 +558,10 @@ export default function Events() {
         
         try {
             const date = new Date(dateString);
-            return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            // Format as YYYY-MM-DDThh:mm (datetime-local format)
+            return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+                .toISOString()
+                .slice(0, 16);
         } catch (e) {
             return '';
         }
@@ -557,7 +575,8 @@ export default function Events() {
             description: '',
             image_url: '',
             status: 'Upcoming',
-            event_date: ''
+            event_date: '',
+            rsvp_link: ''
         });
         setEditMode('modal');
         setIsModalOpen(true);
@@ -573,7 +592,8 @@ export default function Events() {
             description: '',
             image_url: '',
             status: 'Upcoming',
-            event_date: ''
+            event_date: '',
+            rsvp_link: ''
         });
     };
 
@@ -630,7 +650,9 @@ export default function Events() {
             return date.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'short',
-                day: 'numeric'
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
             });
         } catch (e) {
             return 'Invalid date';
@@ -856,7 +878,7 @@ export default function Events() {
                             <div className="form-group">
                                 <label htmlFor="event_date">Event Date</label>
                                 <input
-                                    type="date"
+                                    type="datetime-local"
                                     id="event_date"
                                     name="event_date"
                                     value={formData.event_date}
@@ -1017,6 +1039,18 @@ export default function Events() {
                                     <option value="Completed">Completed</option>
                                     <option value="Cancelled">Cancelled</option>
                                 </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="rsvp_link">RSVP Link (Optional)</label>
+                                <input
+                                    type="url"
+                                    id="rsvp_link"
+                                    name="rsvp_link"
+                                    value={formData.rsvp_link || ''}
+                                    onChange={handleInputChange}
+                                    placeholder="https://example.com/rsvp"
+                                />
                             </div>
 
                             <div className="modal-actions">

@@ -141,7 +141,7 @@
 
 
 
-
+/* Temporary solution manual adjustments to accomodate all viewport sizes - Kent */
 @media (max-width: 900px) {
   .hero-section {
     height: 350px;
