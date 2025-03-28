@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import './AdminLayout.css';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.svg';
 export default function AdminLayout({ children }) {
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,7 +28,7 @@ export default function AdminLayout({ children }) {
             <nav className="admin-sidebar">
                 <div className="admin-sidebar-header">
                     {/* <h2>Admin Panel</h2> */}
-                    <img src={logo} alt="Logo" />
+                    <img src={logo} alt="Logo" className="admin-logo" />
                 </div>
                 
                 <div className="admin-sidebar-menu">
