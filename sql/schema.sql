@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS events (
     image_url TEXT,
     status event_status NOT NULL DEFAULT 'Upcoming',
     event_date TIMESTAMPTZ,
+    rsvp_link TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

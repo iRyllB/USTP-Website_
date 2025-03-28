@@ -12,8 +12,9 @@ import { Link } from "react-router-dom";
 
 export default function Events() {
     const [events, setEvents] = useState({
-        ongoingEvents: [],
-        pastEvents: []
+        upcomingEvents: [],
+        completedEvents: [],
+        cancelledEvents: []
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -42,18 +43,23 @@ export default function Events() {
 
             const data = await response.json();
             
-            // Separate events into ongoing and past
-            const ongoingEvents = data.filter(event => 
-                event.status === "Ongoing" || event.status === "Upcoming"
+            // Separate events based on their status
+            const upcomingEvents = data.filter(event => 
+                event.status === "Upcoming"
             );
             
-            const pastEvents = data.filter(event => 
-                event.status === "Past" || event.status === "Completed"
+            const completedEvents = data.filter(event => 
+                event.status === "Completed"
+            );
+            
+            const cancelledEvents = data.filter(event => 
+                event.status === "Cancelled"
             );
             
             setEvents({
-                ongoingEvents,
-                pastEvents
+                upcomingEvents,
+                completedEvents,
+                cancelledEvents
             });
             setLoading(false);
         } catch (err) {
@@ -63,13 +69,54 @@ export default function Events() {
         }
     };
 
+    // Function to calculate and format countdown
+    const getCountdown = (eventDate) => {
+        if (!eventDate) return 'Date not specified';
+        
+        const now = new Date();
+        const event = new Date(eventDate);
+        const diffTime = event - now;
+        
+        if (diffTime < 0) return 'Event has passed';
+        
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        if (diffDays > 0) {
+            return `${diffDays} day${diffDays !== 1 ? 's' : ''} ${diffHours} hour${diffHours !== 1 ? 's' : ''}`;
+        } else if (diffHours > 0) {
+            return `${diffHours} hour${diffHours !== 1 ? 's' : ''}`;
+        } else {
+            return 'Less than an hour';
+        }
+    };
+
     // Function to format date nicely
     const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleTimeString('en-US', { 
-            hour: 'numeric',
-            minute: '2-digit'
-        });
+        if (!dateString) return 'Date not specified';
+        
+        try {
+            const date = new Date(dateString);
+            
+            const dateOptions = { 
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            
+            const timeOptions = {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            };
+            
+            const formattedDate = date.toLocaleDateString('en-US', dateOptions);
+            const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
+            
+            return `${formattedDate} at ${formattedTime}`;
+        } catch (e) {
+            return 'Invalid date format';
+        }
     };
 
     // Function to create placeholder image if none exists
@@ -79,6 +126,7 @@ export default function Events() {
 
     // Function to strip HTML tags from description for preview
     const stripHtml = (html) => {
+        if (!html) return '';
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || '';
     };
@@ -96,7 +144,7 @@ export default function Events() {
         return (
             <div className="events-grid">
                 {events.map(event => (
-                    <div className="event-card" key={event.id}>
+                    <div className="event-card" key={event.id} data-aos="fade-up">
                         <div className="event-image">
                             <img 
                                 src={getImageUrl(event.image_url)} 
@@ -105,14 +153,23 @@ export default function Events() {
                         </div>
                         <div className="event-content">
                             <h3>{event.heading}</h3>
-                            <p className="event-time">
-                                <span className="dot"></span> Registration closes at {formatDate(event.created_at)}
+                            <p className="event-date">
+                                <span className="dot"></span> {formatDate(event.event_date)}
                             </p>
+                            {event.status === "Upcoming" && (
+                                <p className="event-countdown">
+                                    <span className="countdown-label">Countdown:</span> {getCountdown(event.event_date)}
+                                </p>
+                            )}
                             <p className="event-description">
-                                {stripHtml(event.description).substring(0, 150)}
-                                {stripHtml(event.description).length > 150 ? '...' : ''}
+                                {event.tagline || stripHtml(event.description).substring(0, 150)}
+                                {!event.tagline && stripHtml(event.description).length > 150 ? '...' : ''}
                             </p>
-                            <button className="rsvp-button">RSVP</button>
+                            {event.rsvp_link && event.status === "Upcoming" && (
+                                <a href={event.rsvp_link} className="rsvp-button" target="_blank" rel="noopener noreferrer">
+                                    RSVP
+                                </a>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -140,15 +197,34 @@ export default function Events() {
                         </div>
                     ) : (
                         <>
-                            <div className="events-section">
-                                <h2>Ongoing Events</h2>
-                                {renderEventCards(events.ongoingEvents)}
-                            </div>
+                            {events.upcomingEvents.length > 0 && (
+                                <div className="events-section">
+                                    <h2>Upcoming Events</h2>
+                                    {renderEventCards(events.upcomingEvents)}
+                                </div>
+                            )}
                             
-                            <div className="events-section">
-                                <h2>Past Events</h2>
-                                {renderEventCards(events.pastEvents)}
-                            </div>
+                            {events.completedEvents.length > 0 && (
+                                <div className="events-section">
+                                    <h2>Completed Events</h2>
+                                    {renderEventCards(events.completedEvents)}
+                                </div>
+                            )}
+                            
+                            {events.cancelledEvents.length > 0 && (
+                                <div className="events-section">
+                                    <h2>Cancelled Events</h2>
+                                    {renderEventCards(events.cancelledEvents)}
+                                </div>
+                            )}
+                            
+                            {events.upcomingEvents.length === 0 && 
+                             events.completedEvents.length === 0 && 
+                             events.cancelledEvents.length === 0 && (
+                                <div className="no-events-container">
+                                    <p>No events available at the moment. Check back soon!</p>
+                                </div>
+                             )}
                         </>
                     )}
                 </section>

@@ -77,32 +77,30 @@ export default function News() {
 
     // Function to format date nicely
     const formatDate = (dateString) => {
+        const date = new Date(dateString);
         const now = new Date();
-        const postDate = new Date(dateString);
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         
-        // Calculate the difference in milliseconds
-        const diffMs = now - postDate;
-        
-        // Convert to minutes, hours, days
-        const diffMins = Math.round(diffMs / (1000 * 60));
-        const diffHours = Math.round(diffMs / (1000 * 60 * 60));
-        const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
-        
-        if (diffMins < 60) {
-            return diffMins === 1 ? '1 minute ago' : `${diffMins} minutes ago`;
-        } else if (diffHours < 24) {
-            return diffHours === 1 ? '1 hour ago' : `${diffHours} hours ago`;
+        if (diffDays < 1) {
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            if (diffHours < 1) {
+                const diffMinutes = Math.floor(diffTime / (1000 * 60));
+                return `${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
+            }
+            return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+        } else if (diffDays === 1) {
+            return 'Yesterday';
         } else if (diffDays < 7) {
-            return diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
+            return `${diffDays} days ago`;
         } else {
             const options = { year: "numeric", month: "long", day: "numeric" };
-            return postDate.toLocaleDateString(undefined, options);
+            return date.toLocaleDateString(undefined, options);
         }
     };
 
     // Function to strip HTML tags from description for preview
     const stripHtml = (html) => {
-        if (!html) return "";
         const doc = new DOMParser().parseFromString(html, "text/html");
         return doc.body.textContent || "";
     };
@@ -131,19 +129,7 @@ export default function News() {
                         <h2>What's New</h2>
 
                         <div className="blog-posts">
-                            {loading && !blogPosts.length ? (
-                                <div className="loading-container">
-                                    <div className="loading-spinner"></div>
-                                    <p>Loading posts...</p>
-                                </div>
-                            ) : error && !blogPosts.length ? (
-                                <div className="error-container">
-                                    <p>Error: {error}</p>
-                                    <button onClick={() => fetchBlogPosts()} className="retry-button">
-                                        Try Again
-                                    </button>
-                                </div>
-                            ) : blogPosts.length > 0 ? (
+                            {blogPosts.length > 0 ? (
                                 blogPosts.map((post, index) => (
                                     <div key={post.id} className="blog-post" data-aos="fade-up" data-aos-delay={index * 100}>
                                         <div className="post-image">
@@ -166,16 +152,25 @@ export default function News() {
                                         </div>
                                     </div>
                                 ))
-                            ) : (
+                            ) : !loading && !error ? (
                                 <div className="no-posts">
                                     <p>No blog posts found. Check back soon for updates!</p>
                                 </div>
-                            )}
+                            ) : null}
                             
-                            {loading && blogPosts.length > 0 && (
+                            {loading && (
                                 <div className="loading-container">
                                     <div className="loading-spinner"></div>
-                                    <p>Loading more posts...</p>
+                                    <p>Loading posts...</p>
+                                </div>
+                            )}
+                            
+                            {error && (
+                                <div className="error-container">
+                                    <p>Error: {error}</p>
+                                    <button onClick={fetchBlogPosts} className="retry-button">
+                                        Try Again
+                                    </button>
                                 </div>
                             )}
                         </div>
