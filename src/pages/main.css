@@ -1,3 +1,9 @@
+
+/* TODO: Refactor stylesheet for better organization and maintainability
+   - Current approach uses individual entries for each element
+   - Consider grouping related styles and using consistent patterns
+   - Reduce redundancy by combining similar style declarations
+   - Implement proper CSS hierarchy for better specificity management - Kent */
 * {
     margin: 0;
     padding: 0;
@@ -56,30 +62,6 @@ html {
     font-style: italic; 
 }
 
-/* Section-1 container */
-/* White background */
-.section-1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3vh 0;
-    border-radius: 30px 30px 0 0;
-    background-color: white;
-    border: none;
-    margin-top: -20px;
-    box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.3);
-}
-/* Light green On going events container */
-.section-1-container {
-    display: flex;
-    flex-wrap: wrap; /* Ensure wrapping when there is not enough space */
-    gap: 2rem; /* Adjust spacing between cards */
-    padding: 2rem;
-    background-color: #f0fdf4;
-    max-width: 100%;
-    box-sizing: border-box;
-    justify-content: space-between; /* Add this to make sure the cards space out evenly */
-}
 
 /* Base styles */
 * {

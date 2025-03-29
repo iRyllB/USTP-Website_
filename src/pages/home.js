@@ -19,7 +19,7 @@ export default function Home() {
     
     // Create a ref for scrolling to content
     const contentRef = useRef(null);
-    
+    // Kind
     // Check if mobile on initial load and window resize
     useEffect(() => {
         const checkIsMobile = () => {
@@ -90,7 +90,7 @@ export default function Home() {
                             Building Good Things, <span className="color-text">Together!</span>
                         </h1>
                         <p>
-                            Rorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Google Developer Groups on Campus - USTP
                         </p>
                         {!isMobile && (
                             <button 
@@ -167,7 +167,29 @@ export default function Home() {
                             </div>
                         </div>
                     </section>
-
+                                        
+                    <section className="trusted" data-aos="fade-up">
+                        <h1>Trusted by People</h1>
+                        <div className="trusted-container">
+                            <div className="trusted-row">
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 1" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 2" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 3" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 4" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 5" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 6" className="profile-image" />
+                            </div>
+                            <div className="trusted-row">
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 7" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 8" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 9" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 10" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 11" className="profile-image" />
+                                <img src={require('../assets/picturetest.jpg')} alt="Profile 12" className="profile-image" />
+                            </div>
+                        </div>
+                    </section>
+                    
                     <section className="gallery" data-aos="fade-up">
                         <h1>Inspiring Members</h1>
                         <div className="gallery-container">
@@ -185,29 +207,56 @@ export default function Home() {
                             <div className="wtsup-container">
                                 <div className="wtsup-card">
                                     <img src={About} alt="Silhouette" className="wtsup-image" />
-                                    <h2 className="wtsup-title">Lorem ipsum dolor sit amet</h2>
-                                    <p className="wtsup-time">An hour ago</p>
-                                    <p className="wtsup-description">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
-                                    </p>
+                                    <div className="wtsup-content">
+                                        <div className="wtsup-header">
+                                            <h2 className="wtsup-title">Lorem ipsum dolor sit amet</h2>
+                                            <p className="wtsup-time">An hour ago</p>
+                                        </div>
+                                        <p className="wtsup-description">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className="wtsup-card">
                                     <img src={About} alt="Night sky" className="wtsup-image" />
-                                    <h2 className="wtsup-title">Lorem ipsum dolor sit amet</h2>
-                                    <p className="wtsup-time">An hour ago</p>
-                                    <p className="wtsup-description">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
-                                    </p>
+                                    <div className="wtsup-content">
+                                        <div className="wtsup-header">
+                                            <h2 className="wtsup-title">Lorem ipsum dolor sit amet</h2>
+                                            <p className="wtsup-time">An hour ago</p>
+                                        </div>
+                                        <p className="wtsup-description">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div className="wtsup-button-container">
-                                <button className="wtsup-button">Show More ↓</button>
+                                <Link to="/news" className="wtsup-button">Show More</Link>
                             </div>
                         </div>
                     </section>
 
                     <section className="cta" data-aos="fade-up">
-                        <h1>CTA</h1>
+                        <h1 className="cta-title">Join our community</h1>
+                        <div className="cta-container">
+                            <div className="cta-content">
+                                <h2 className="cta-heading">Ready to become part of our GDG community?</h2>
+                                <p className="cta-text">Join our thriving community of developers to learn, share, and grow together. Connect with like-minded individuals and participate in events, workshops, and collaborative projects.</p>
+                                <div className="cta-buttons">
+                                    <Link to="/contact" style={{ textDecoration: 'none' }}>
+                                        <button className="cta-button primary">
+                                            <span>Join Now</span>
+                                        </button>
+                                    </Link>
+                                    <Link to="/events" style={{ textDecoration: 'none' }}>
+                                        <button className="cta-button secondary">
+                                            <span>View Events</span>
+                                        </button>
+                                    </Link>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </section>
                 </animated.div>
             </main>

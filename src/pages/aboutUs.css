@@ -184,7 +184,7 @@
     }
     
     .about-info-group {
-        flex-direction: column;
+    flex-direction: column;
         height: auto;
         gap: 30px;
         margin-bottom: 30px;
@@ -195,7 +195,7 @@
     }
     
     .image-box, .text-container {
-        width: 100%;
+    width: 100%;
         max-width: 100%;
     }
     
