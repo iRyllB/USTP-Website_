@@ -113,7 +113,7 @@ export default function Events() {
             const formattedDate = date.toLocaleDateString('en-US', dateOptions);
             const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
             
-            return `${formattedDate} at ${formattedTime}`;
+            return `Registration Ends at ${formattedDate} - ${formattedTime}`;
         } catch (e) {
             return 'Invalid date format';
         }
@@ -135,38 +135,39 @@ export default function Events() {
     const renderEventCards = (events) => {
         if (events.length === 0) {
             return (
-                <div className="no-events">
+                <div className="public-no-events">
                     <p>No events available at the moment. Check back soon!</p>
                 </div>
             );
         }
 
+        // Only display up to 2 events per row
+        const displayEvents = events.slice(0, events.length);
+
         return (
-            <div className="events-grid">
-                {events.map(event => (
-                    <div className="event-card" key={event.id} data-aos="fade-up">
-                        <div className="event-image">
+            <div className="public-events-grid">
+                {displayEvents.map(event => (
+                    <div className="public-event-card" key={event.id} data-aos="fade-up">
+                        <div className="public-event-image">
                             <img 
                                 src={getImageUrl(event.image_url)} 
                                 alt={`${event.heading} thumbnail`}
+                                loading="lazy"
                             />
                         </div>
-                        <div className="event-content">
-                            <h3>{event.heading}</h3>
-                            <p className="event-date">
-                                <span className="dot"></span> {formatDate(event.event_date)}
-                            </p>
-                            {event.status === "Upcoming" && (
-                                <p className="event-countdown">
-                                    <span className="countdown-label">Countdown:</span> {getCountdown(event.event_date)}
+                        <div className="public-event-content">
+                            <div>
+                                <h3>{event.heading}</h3>
+                                <p className="public-event-date">
+                                    {formatDate(event.event_date)}
                                 </p>
-                            )}
-                            <p className="event-description">
-                                {event.tagline || stripHtml(event.description).substring(0, 150)}
-                                {!event.tagline && stripHtml(event.description).length > 150 ? '...' : ''}
+                            </div>
+                            <p className="public-event-description">
+                                {event.tagline || stripHtml(event.description).substring(0, window.innerWidth <= 480 ? 100 : 150)}
+                                {!event.tagline && stripHtml(event.description).length > (window.innerWidth <= 480 ? 100 : 150) ? '...' : ''}
                             </p>
                             {event.rsvp_link && event.status === "Upcoming" && (
-                                <a href={event.rsvp_link} className="rsvp-button" target="_blank" rel="noopener noreferrer">
+                                <a href={event.rsvp_link} className="public-rsvp-button" target="_blank" rel="noopener noreferrer">
                                     RSVP
                                 </a>
                             )}
@@ -184,35 +185,35 @@ export default function Events() {
             <main>
                 <HeroSection title="Events" theme="events" />
 
-                <section className="events-container">
+                <section className="public-events-container">
                     {loading ? (
-                        <div className="loading-container">
-                            <div className="loading-spinner"></div>
+                        <div className="public-loading-container">
+                            <div className="public-loading-spinner"></div>
                             <p>Loading events...</p>
                         </div>
                     ) : error ? (
-                        <div className="error-container">
+                        <div className="public-error-container">
                             <p>Error loading events: {error}</p>
-                            <button onClick={fetchEvents} className="retry-button">Retry</button>
+                            <button onClick={fetchEvents} className="public-retry-button">Retry</button>
                         </div>
                     ) : (
                         <>
                             {events.upcomingEvents.length > 0 && (
-                                <div className="events-section">
-                                    <h2>Upcoming Events</h2>
+                                <div className="public-events-section">
+                                    <h2>Ongoing Events</h2>
                                     {renderEventCards(events.upcomingEvents)}
                                 </div>
                             )}
                             
                             {events.completedEvents.length > 0 && (
-                                <div className="events-section">
+                                <div className="public-events-section">
                                     <h2>Completed Events</h2>
                                     {renderEventCards(events.completedEvents)}
                                 </div>
                             )}
                             
                             {events.cancelledEvents.length > 0 && (
-                                <div className="events-section">
+                                <div className="public-events-section">
                                     <h2>Cancelled Events</h2>
                                     {renderEventCards(events.cancelledEvents)}
                                 </div>
@@ -221,7 +222,7 @@ export default function Events() {
                             {events.upcomingEvents.length === 0 && 
                              events.completedEvents.length === 0 && 
                              events.cancelledEvents.length === 0 && (
-                                <div className="no-events-container">
+                                <div className="public-no-events-container">
                                     <p>No events available at the moment. Check back soon!</p>
                                 </div>
                              )}

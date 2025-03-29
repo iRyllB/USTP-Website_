@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '../../lib/supabase';
+import { TINYMCE_API_KEY, getEditorConfig } from '../../lib/tinymceConfig';
 import './BlogPosts.css';
 
 // Full-page editor component
@@ -55,30 +56,8 @@ const BlogPostEditor = ({ formData, setFormData, handleSubmit, handleCloseModal,
                         <div className="form-group description-group">
                             <label htmlFor="description">Content</label>
                             <Editor
-                                apiKey="lvfyum4dnqydc0gvbs8qi8fv7tgy4mi78km2sa2flziuj3eb"
-                                init={{
-                                    height: 600,
-                                    menubar: 'file edit view insert format tools table help',
-                                    plugins: [
-                                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                        'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount',
-                                        'emoticons', 'paste', 'hr', 'textcolor', 'imagetools'
-                                    ],
-                                    toolbar1: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
-                                    toolbar2: 'forecolor backcolor | link image media | table emoticons hr | removeformat code fullscreen help',
-                                    content_style: `
-                                        body { 
-                                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                                            font-size: 16px;
-                                            line-height: 1.6;
-                                            color: #333;
-                                            max-width: 100%;
-                                            padding: 1rem;
-                                        }
-                                    `,
-                                    images_upload_handler: handleEditorImageUpload
-                                }}
+                                apiKey={TINYMCE_API_KEY}
+                                init={getEditorConfig(600, handleEditorImageUpload)}
                                 value={formData.description}
                                 onEditorChange={handleEditorChange}
                             />
@@ -401,11 +380,17 @@ export default function BlogPosts() {
             setLoading(true);
             setError('');
 
+            // Get user ID if available (for authenticated users)
+            const { data: { user } } = await supabase.auth.getUser();
+            
             const postData = {
                 heading: formData.heading,
                 tagline: formData.tagline,
                 description: formData.description,
-                image_url: formData.image_url
+                image_url: formData.image_url,
+                // Only include author_id if there's a user - otherwise it will be NULL
+                // This works with the updated SQL schema that allows NULL values
+                ...(user?.id && { author_id: user.id })
             };
 
             if (selectedPost) {
@@ -764,90 +749,8 @@ export default function BlogPosts() {
                             <div className="form-group">
                                 <label htmlFor="description">Content</label>
                                 <Editor
-                                    apiKey="lvfyum4dnqydc0gvbs8qi8fv7tgy4mi78km2sa2flziuj3eb"
-                                    init={{
-                                        height: 500,
-                                        menubar: 'file edit view insert format tools table help',
-                                        plugins: [
-                                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                            'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount',
-                                            'emoticons', 'paste', 'hr', 'textcolor', 'imagetools'
-                                        ],
-                                        toolbar1: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
-                                        toolbar2: 'forecolor backcolor | link image media | table emoticons hr | removeformat code fullscreen help',
-                                        style_formats: [
-                                            { title: 'Headings', items: [
-                                                { title: 'Heading 2', format: 'h2' },
-                                                { title: 'Heading 3', format: 'h3' },
-                                                { title: 'Heading 4', format: 'h4' }
-                                            ]},
-                                            { title: 'Inline', items: [
-                                                { title: 'Bold', format: 'bold' },
-                                                { title: 'Italic', format: 'italic' },
-                                                { title: 'Underline', format: 'underline' },
-                                                { title: 'Strikethrough', format: 'strikethrough' },
-                                                { title: 'Code', format: 'code' }
-                                            ]},
-                                            { title: 'Blocks', items: [
-                                                { title: 'Paragraph', format: 'p' },
-                                                { title: 'Blockquote', format: 'blockquote' },
-                                                { title: 'Div', format: 'div' },
-                                                { title: 'Pre', format: 'pre' }
-                                            ]}
-                                        ],
-                                        content_style: `
-                                            body { 
-                                                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                                                font-size: 16px;
-                                                line-height: 1.6;
-                                                color: #333;
-                                                max-width: 100%;
-                                                padding: 1rem;
-                                            }
-                                            h2 { font-size: 1.75em; margin: 1.5em 0 0.75em; }
-                                            h3 { font-size: 1.5em; margin: 1.5em 0 0.75em; }
-                                            h4 { font-size: 1.25em; margin: 1.5em 0 0.75em; }
-                                            p { margin: 0 0 1em; }
-                                            blockquote { 
-                                                margin: 1em 0;
-                                                padding: 0.5em 1em;
-                                                border-left: 4px solid #e0e0e0;
-                                                background: #f8f9fe;
-                                            }
-                                            img {
-                                                max-width: 100%;
-                                                height: auto;
-                                                display: block;
-                                                margin: 1em auto;
-                                            }
-                                            table {
-                                                border-collapse: collapse;
-                                                width: 100%;
-                                                margin: 1em 0;
-                                            }
-                                            table td, table th {
-                                                border: 1px solid #e0e0e0;
-                                                padding: 0.5em;
-                                            }
-                                        `,
-                                        images_upload_handler: handleEditorImageUpload,
-                                        automatic_uploads: true,
-                                        file_picker_types: 'image',
-                                        image_title: true,
-                                        image_caption: true,
-                                        image_advtab: true,
-                                        image_dimensions: true,
-                                        images_upload_credentials: true,
-                                        images_reuse_filename: false,
-                                        images_file_types: 'jpeg,jpg,png,gif,webp',
-                                        paste_data_images: true,
-                                        browser_spellcheck: true,
-                                        contextmenu: 'link image table',
-                                        resize: true,
-                                        statusbar: true,
-                                        branding: false
-                                    }}
+                                    apiKey={TINYMCE_API_KEY}
+                                    init={getEditorConfig(500, handleEditorImageUpload)}
                                     value={formData.description}
                                     onEditorChange={handleEditorChange}
                                 />
