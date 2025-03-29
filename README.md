@@ -74,6 +74,38 @@ The CMS provides a secure admin interface for managing content:
 - User Management: Control access levels and permissions
 - Dashboard: Overview of content and activities
 
+## Environment Variables
+
+The application requires the following environment variables to be set in the `.env` file:
+
+```
+# Supabase Configuration
+REACT_APP_SUPABASE_URL=your-supabase-url
+REACT_APP_SUPABASE_ANON_KEY=your-supabase-anon-key
+REACT_APP_SUPABASE_SERVICE_KEY=your-supabase-service-key
+
+# API Configuration
+REACT_APP_API_URL=your-api-url
+
+# TinyMCE Configuration
+REACT_APP_TINYMCE_API_KEY=your-tinymce-api-key
+```
+
+### TinyMCE Integration
+
+The application uses TinyMCE for rich text editing in the admin interface. The configuration is centralized in `src/lib/tinymceConfig.js`. 
+
+Important notes:
+- A valid TinyMCE API key is required (`REACT_APP_TINYMCE_API_KEY` in the `.env` file)
+- You can obtain a free API key from [TinyMCE Cloud](https://www.tiny.cloud/auth/signup/)
+- The implementation is compatible with TinyMCE 7.x
+- Several deprecated plugins from older versions have been removed
+
+If you encounter TinyMCE errors, verify that:
+1. You have a valid API key
+2. The environment variable is correctly loaded
+3. You're using supported plugins (check `src/lib/tinymceConfig.js`)
+
 ## Scripts
 
 - `npm start`: Starts the development server.

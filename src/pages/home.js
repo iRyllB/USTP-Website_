@@ -115,47 +115,56 @@ export default function Home() {
                 >
                     <section className="section-1">
                         <div className="section-1-container">
-                            <div className="about-content">
-                                <div className="about-left">
-                                    <img src={About} alt='About us' />
+                            <div className="home-info-group top-group">
+                                <div className="home-image-box left-image" style={{ 
+                                    backgroundImage: `url(${About})`,
+                                    backgroundPosition: 'center',
+                                    backgroundSize: 'cover',
+                                    backgroundRepeat: 'no-repeat'
+                                }}>
+                                    <img 
+                                        src={About} 
+                                        alt="About us" 
+                                        style={{ 
+                                            width: '1px', 
+                                            height: '1px', 
+                                            opacity: 0 
+                                        }} 
+                                    />
                                 </div>
-                                <div className="about-right">
-                                    <h2>Lorem ipsum dolor sit amet</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan.</p>
-                                    <div style={{ width: 494 }}>
-                                        <Link to="/aboutus">
-                                            <button>Read More</button>
-                                        </Link>
-                                    </div>
+                                <div className="home-text-container">
+                                    <h2 className="home-info-title">Lorem ipsum dolor sit amet</h2>
+                                    <p className="home-info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan.</p>
+                                    <Link to="/aboutus" style={{ textDecoration: 'none' }}>
+                                        <button className="home-learn-more-button">
+                                            <span className="home-learn-more-text">Learn More</span>
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
-                            <div className="team">
-                                <div className="team-left">
-                                    <h2>Lorem ipsum dolor sit amet</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan.</p>
+                            
+                            <div className="home-info-group bottom-group">
+                                <div className="home-text-container right-aligned">
+                                    <h2 className="home-info-title">Lorem ipsum dolor sit amet</h2>
+                                    <p className="home-info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan.</p>
                                 </div>
-                                <div className="team-right">
-                                    <img src={About} alt='About us' />
+                                <div className="home-image-box right-image" style={{ 
+                                    backgroundImage: `url(${About})`,
+                                    backgroundPosition: 'center',
+                                    backgroundSize: 'cover',
+                                    backgroundRepeat: 'no-repeat'
+                                }}>
+                                    <img 
+                                        src={About} 
+                                        alt="About us" 
+                                        style={{ 
+                                            width: '1px', 
+                                            height: '1px', 
+                                            opacity: 0 
+                                        }} 
+                                    />
                                 </div>
                             </div>
-                        </div>
-                    </section>
-
-                    <section className="trusted" data-aos="fade-up">
-                        <h1>Trusted by People</h1>
-                        <div className="trusted-logos">
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 1" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 2" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 3" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 4" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 5" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 6" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 7" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 8" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 9" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 10" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 11" />
-                            <img src={require('../assets/picturetest.jpg')} alt="pic 12" />
                         </div>
                     </section>
 
