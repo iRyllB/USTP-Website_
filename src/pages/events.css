@@ -17,14 +17,14 @@
 
 /* New events container styling */
 .public-events-container {
-    max-width: 1200px;
+    max-width: 1920px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 60px 100px 50px;
 }
 
 .public-events-section {
     background-color: rgba(228, 244, 228, 0.8); /* Lighter mint green background */
-    border-radius: 60px;
+    border-radius: 90px;
     padding: 75px 100px;
     margin: 40px 0;
     width: 100%;

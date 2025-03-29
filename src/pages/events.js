@@ -113,7 +113,7 @@ export default function Events() {
             const formattedDate = date.toLocaleDateString('en-US', dateOptions);
             const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
             
-            return `Registration Ends at ${formattedTime}`;
+            return `Registration Ends at ${formattedDate} - ${formattedTime}`;
         } catch (e) {
             return 'Invalid date format';
         }
