@@ -18,7 +18,8 @@ export default function PersonalityTest() {
                 setError(null);
 
                 // Validate the personality code
-                if (!isValidPersonalityCode(id)) {
+                const isValid = await isValidPersonalityCode(id);
+                if (!isValid) {
                     throw new Error("Invalid personality code. Please provide a valid 10-letter code.");
                 }
 
@@ -28,7 +29,13 @@ export default function PersonalityTest() {
 
             } catch (err) {
                 console.error("Error analyzing personality:", err);
-                setError(err.message);
+
+                // Handle specific error types
+                if (err.message === 'INVALID_CODE') {
+                    setError("Invalid personality code combination. The letters you provided don't form a valid personality type according to our system. Please check your code or take the personality quiz to get a valid code.");
+                } else {
+                    setError(err.message);
+                }
             } finally {
                 setLoading(false);
             }
@@ -46,58 +53,77 @@ export default function PersonalityTest() {
         window.location.reload();
     };
 
+    // Determine theme based on ideal department
+    const getThemeClass = (department) => {
+        if (!department) return '';
+
+        const departmentLower = department.toLowerCase();
+        if (departmentLower.includes('technology')) return 'technology-theme';
+        if (departmentLower.includes('operations')) return 'operations-theme';
+        if (departmentLower.includes('communications')) return 'communications-theme';
+        if (departmentLower.includes('community')) return 'community-theme';
+        return '';
+    };
+
+    const themeClass = personalityData ? getThemeClass(personalityData.coreType.idealDepartment) : '';
+
     return (
         <>
             <title>
-                {personalityData 
-                    ? `${personalityData.coreType.title} - Personality Test Results` 
+                {personalityData
+                    ? `${personalityData.coreType.title} - Personality Test Results`
                     : "Personality Test Results"
                 }
             </title>
             <NavigationBar />
-            <main className="personality-test-page">
+            <main className={`personality-test-page ${themeClass}`}>
                 {loading ? (
-                    <div className="personality-loading">
-                        <div className="loading-spinner"></div>
-                        <p>Analyzing your personality code...</p>
-                        <p className="loading-code">Code: {id?.toUpperCase()}</p>
+                    <div className="personality-content">
+                        <div className="personality-loading">
+                            <div className="loading-spinner"></div>
+                            <p>Analyzing your personality code...</p>
+                            <p className="loading-code">Code: {id?.toUpperCase()}</p>
+                        </div>
                     </div>
                 ) : error ? (
-                    <div className="personality-error">
-                        <h2>Unable to Analyze Personality Code</h2>
-                        <p>{error}</p>
-                        <div className="error-buttons">
-                            <button onClick={handleRetry} className="retry-button">
-                                Try Again
-                            </button>
-                            <Link to="/" className="back-button">
-                                Back to Home
-                            </Link>
+                    <div className="personality-content">
+                        <div className="personality-error">
+                            <h2>Unable to Analyze Personality Code</h2>
+                            <p>{error}</p>
+                            <div className="error-buttons">
+                                <button onClick={handleRetry} className="retry-button">
+                                    Try Again
+                                </button>
+                                <Link to="/personality-test" className="quiz-button">
+                                    Take Personality Quiz
+                                </Link>
+                                <Link to="/" className="back-button">
+                                    Back to Home
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 ) : personalityData ? (
-                    <div className="personality-container">
-                        {/* Hero Section */}
-                        <div className="personality-hero">
-                            <div className="personality-hero-content">
-                                <div className="personality-code-display">
+                    <>
+                        {/* Results Header */}
+                        <div className="personality-results-header">
+                            <div className="container">
+                                <div className="personality-code-badge">
                                     <span className="code-label">Your Personality Code</span>
-                                    <h1 className="personality-code">{personalityData.personalityCode}</h1>
+                                    <div className="personality-code">{personalityData.personalityCode}</div>
                                 </div>
-                                <div className="core-type-preview">
-                                    <h2 className="core-type-title">{personalityData.coreType.title}</h2>
-                                    <p className="core-type-summary">{personalityData.coreType.summary}</p>
-                                </div>
+                                <h1 className="personality-title">{personalityData.coreType.title}</h1>
+                                <p className="personality-subtitle">{personalityData.coreType.summary}</p>
                             </div>
                         </div>
 
                         {/* Main Content */}
                         <div className="personality-content">
                             {/* Core Type Section */}
-                            <section className="core-type-section">
-                                <h3>Your Core Type</h3>
-                                <div className="core-type-details">
-                                    <div className="core-type-info">
+                            <section className="personality-section">
+                                <h2 className="section-title">Your Core Type</h2>
+                                <div className="core-type-grid">
+                                    <div className="core-type-card">
                                         <h4>Strengths</h4>
                                         <ul className="strengths-list">
                                             {personalityData.coreType.strengths.map((strength, index) => (
@@ -105,46 +131,92 @@ export default function PersonalityTest() {
                                             ))}
                                         </ul>
                                     </div>
-                                    <div className="core-type-info">
+                                    {personalityData.coreType.weaknesses && (
+                                        <div className="core-type-card">
+                                            <h4>Areas for Growth</h4>
+                                            <ul className="weaknesses-list">
+                                                {personalityData.coreType.weaknesses.map((weakness, index) => (
+                                                    <li key={index}>{weakness}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    <div className="core-type-card">
                                         <h4>Ideal Work</h4>
-                                        <p>{personalityData.coreType.idealWork}</p>
-                                    </div>
-                                    <div className="core-type-info">
-                                        <h4>Ideal Department</h4>
-                                        <p className="ideal-department">{personalityData.coreType.idealDepartment}</p>
+                                        <p className="ideal-work-text">{personalityData.coreType.idealWork}</p>
                                     </div>
                                 </div>
                             </section>
 
                             {/* Work Style Traits Section */}
-                            <section className="work-style-section">
-                                <h3>Your Work Style Traits</h3>
+                            <section className="personality-section">
+                                <h2 className="section-title">Your Work Style Traits</h2>
                                 <p className="work-style-intro">Based on the last 6 letters of your code:</p>
                                 <div className="work-style-grid">
-                                    {Object.entries(personalityData.workStyleTraits).map(([letter, description]) => (
-                                        <div key={letter} className="work-style-trait">
-                                            <div className="trait-letter">{letter}</div>
-                                            <div className="trait-description">{description}</div>
-                                        </div>
-                                    ))}
+                                    {Object.entries(personalityData.workStyleTraits).map(([letter, description]) => {
+                                        // Parse the description to get title and description
+                                        const parts = description.split(': ');
+                                        const title = parts[0] || letter;
+                                        const desc = parts[1] || description;
+
+                                        return (
+                                            <div key={letter} className="work-style-trait">
+                                                <div className="trait-letter">{letter}</div>
+                                                <div className="trait-content">
+                                                    <div className="trait-title">{title}</div>
+                                                    <div className="trait-description">{desc}</div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </section>
 
+                            {/* Why Join GDSC Section */}
+                            {personalityData.coreType["Why join"] && (
+                                <section className="personality-section">
+                                    <h2 className="section-title">Why Join GDG on Campus?</h2>
+                                    <div className="why-join-content">
+                                        <p className="why-join-text">{personalityData.coreType["Why join"]}</p>
+                                    </div>
+                                </section>
+                            )}
+
+                            {/* Department Recommendation Card */}
+                            <div className="department-recommendation">
+                                <div className="department-card">
+                                    <div className="department-content">
+                                        <h3>Perfect Department Match</h3>
+                                        <p>Based on your personality analysis, you're encouraged to join the <strong>{personalityData.coreType.idealDepartment}</strong> department where you'll thrive the most!</p>
+                                        <p className="department-alternative">Don't worry if this doesn't feel right - you can always join as a general member and explore different areas.</p>
+                                    </div>
+                                    <div className="department-cta">
+                                        <Link
+                                            to="/contact"
+                                            className="register-cta-button"
+                                        >
+                                            Join GDSC USTP
+                                        </Link>
+                                        <p className="cta-subtitle">Start your developer journey with us!</p>
+                                    </div>
+                                </div>
+                            </div>
+
                             {/* Actions Section */}
-                            <section className="personality-actions">
+                            <div className="personality-actions">
                                 <div className="action-buttons">
-                                    <button onClick={() => window.print()} className="print-button">
+                                    <button onClick={() => window.print()} className="cta-button primary">
                                         Save Results
                                     </button>
-                                    <Link to="/" className="home-button">
+                                    <Link to="/" className="cta-button secondary">
                                         Back to Home
                                     </Link>
                                 </div>
                                 <div className="share-section">
                                     <p>Share your personality code with friends!</p>
-                                    <div className="share-code">
-                                        <span>{personalityData.personalityCode}</span>
-                                        <button 
+                                    <div className="share-code-container">
+                                        <span className="share-code-text">{personalityData.personalityCode}</span>
+                                        <button
                                             onClick={() => navigator.clipboard.writeText(personalityData.personalityCode)}
                                             className="copy-button"
                                         >
@@ -152,9 +224,9 @@ export default function PersonalityTest() {
                                         </button>
                                     </div>
                                 </div>
-                            </section>
+                            </div>
                         </div>
-                    </div>
+                    </>
                 ) : null}
             </main>
             <Footer />

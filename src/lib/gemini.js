@@ -11,6 +11,7 @@ Core Type:
 Title: (based on first 4 letters)
 Summary: 4 - 6 sentence description of this core personality in the tech world
 Strengths: (list key strengths)
+Weakness: (list key weaknesses)
 Ideal Work: (roles or activities they'd enjoy most)
 Ideal Department for Core team: (Technology (Technology inclined) |Operations (Prefers structure) |Community Development (Loves interacting with people) | Communications (Creative person))
 Work Style Traits (Last 6 Letters):
@@ -24,8 +25,10 @@ IMPORTANT: Respond with ONLY valid JSON in this exact format (no additional text
     "title": "Title based on first 4 letters",
     "summary": "4-6 sentence description",
     "strengths": ["strength1", "strength2", "strength3"],
+    "weaknesses": ["weakness1", "weakness2", "weakness3"],
     "idealWork": "roles or activities they'd enjoy most",
     "idealDepartment": "Technology or Operations or Community Development or Communications"
+    "Why join": "Why join google developer groups on campus? How it will benefit me and how it will help them grow as a developer. Respond as first person noun (you)."
   },
   "workStyleTraits": {
     "LETTER1": "Brief explanation",
@@ -41,7 +44,6 @@ IMPORTANT: IF THE 10 LETTER COMBINATION IS INVALID, INVALID SEQUENCE AND NOT ON 
 {
   "error": "Invalid personality code"
 }
-EXAMPLE: EDCFRXSLBF - Take note of the last letter ``F`` the tenth question only has H or K between the choices, therefore this combination is invalid.
 
 For reference:
 🧩 Trait Decoder
@@ -70,7 +72,12 @@ Z	Driver	Brings energy, leads discussions, pushes forward
 B	Step Solver	Solves things one logical piece at a time
 V	Visionary Thinker	Starts with the big picture and works downward
 H	Hacker	Jumps into tools hands-on and figures it out fast
-K	Planner	Studies first, thinks before acting or testing`;
+K	Planner	Studies first, thinks before acting or testing
+
+Questions:
+
+
+`;
 
 /**
  * Analyzes a personality code using Google Gemini API
@@ -84,6 +91,12 @@ export const analyzePersonalityCode = async (personalityCode) => {
 
     if (!personalityCode || personalityCode.length !== 10) {
         throw new Error('Invalid personality code. Must be exactly 10 letters.');
+    }
+
+    // Validate the personality code against the valid combinations
+    const isValid = await isValidPersonalityCode(personalityCode);
+    if (!isValid) {
+        throw new Error('INVALID_CODE');
     }
 
     const prompt = `${SYSTEM_PROMPT}\n\nPersonality Code: ${personalityCode.toUpperCase()}`;
@@ -104,7 +117,7 @@ export const analyzePersonalityCode = async (personalityCode) => {
                     temperature: 0.7,
                     topK: 40,
                     topP: 0.95,
-                    maxOutputTokens: 1024,
+                    maxOutputTokens: 2048,
                 }
             })
         });
@@ -122,34 +135,68 @@ export const analyzePersonalityCode = async (personalityCode) => {
 
         const generatedText = data.candidates[0].content.parts[0].text;
 
+        // Debug: Log response length for troubleshooting
+        console.log('Gemini response length:', generatedText.length);
+
         // Try to extract JSON from the response
-        // First, try to extract from markdown code blocks
-        let jsonMatch = generatedText.match(/```json\s*([\s\S]*?)\s*```/);
-        if (jsonMatch) {
-            jsonMatch[0] = jsonMatch[1]; // Use the content inside the code block
+        let jsonString = '';
+
+        // First, try to extract from markdown code blocks (handle incomplete responses)
+        let codeBlockMatch = generatedText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+        if (codeBlockMatch) {
+            jsonString = codeBlockMatch[1].trim();
         } else {
-            // Fallback: look for JSON object directly
-            jsonMatch = generatedText.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) {
-                // Try to find JSON that might start with array
-                jsonMatch = generatedText.match(/\[[\s\S]*\]/);
+            // Check for incomplete code block (starts with ```json but no closing ```)
+            const incompleteCodeBlock = generatedText.match(/```(?:json)?\s*([\s\S]*)/);
+            if (incompleteCodeBlock) {
+                jsonString = incompleteCodeBlock[1].trim();
+            } else {
+                // Fallback: look for JSON object directly
+                const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    jsonString = jsonMatch[0].trim();
+                } else {
+                    // Try to find JSON that might start with array
+                    const arrayMatch = generatedText.match(/\[[\s\S]*\]/);
+                    if (arrayMatch) {
+                        jsonString = arrayMatch[0].trim();
+                    }
+                }
             }
         }
 
-        if (!jsonMatch) {
-            throw new Error(`Could not extract JSON from Gemini response. Response was: ${generatedText.substring(0, 200)}...`);
+        if (!jsonString) {
+            throw new Error(`Could not extract JSON from Gemini response. Response was: ${generatedText.substring(0, 500)}...`);
         }
 
         let personalityAnalysis;
         try {
-            personalityAnalysis = JSON.parse(jsonMatch[0]);
+            personalityAnalysis = JSON.parse(jsonString);
         } catch (parseError) {
-            throw new Error(`Failed to parse JSON response: ${parseError.message}`);
+
+            // Check if the response was truncated/incomplete
+            if (jsonString.length > 0 && !jsonString.includes('}')) {
+                throw new Error('The AI response was incomplete or truncated. Please try again.');
+            } else if (jsonString.includes('"summary"') && !jsonString.endsWith('}')) {
+                throw new Error('The AI response was cut off mid-generation. Please try again.');
+            } else {
+                throw new Error(`Failed to parse JSON response: ${parseError.message}. The response may be malformed or incomplete.`);
+            }
         }
-        
+
+        // Check if Gemini returned an error for invalid code
+        if (personalityAnalysis.error) {
+            throw new Error('INVALID_CODE');
+        }
+
         // Validate the response structure
         if (!personalityAnalysis.personalityCode || !personalityAnalysis.coreType || !personalityAnalysis.workStyleTraits) {
             throw new Error('Invalid personality analysis structure');
+        }
+
+        // Validate core type structure
+        if (!personalityAnalysis.coreType.title || !personalityAnalysis.coreType.strengths) {
+            throw new Error('Invalid core type structure');
         }
 
         return personalityAnalysis;
@@ -160,16 +207,59 @@ export const analyzePersonalityCode = async (personalityCode) => {
     }
 };
 
+// Load valid personality codes from the text file
+let validPersonalityCodes = null;
+
 /**
- * Validates if a personality code follows the expected format
- * @param {string} code - The personality code to validate
- * @returns {boolean} - Whether the code is valid
+ * Loads the valid personality codes from the text file
+ * @returns {Promise<Set<string>>} - Set of valid personality codes
  */
-export const isValidPersonalityCode = (code) => {
+const loadValidPersonalityCodes = async () => {
+    if (validPersonalityCodes) {
+        return validPersonalityCodes;
+    }
+
+    try {
+        const response = await fetch('/personality_codes.txt');
+        if (!response.ok) {
+            throw new Error('Failed to load personality codes file');
+        }
+
+        const text = await response.text();
+        const codes = text.split('\n')
+            .map(line => line.trim().toUpperCase())
+            .filter(line => line.length === 10);
+
+        validPersonalityCodes = new Set(codes);
+        return validPersonalityCodes;
+    } catch (error) {
+        console.error('Error loading personality codes:', error);
+        // Fallback to basic format validation if file can't be loaded
+        return null;
+    }
+};
+
+/**
+ * Validates if a personality code is in the list of valid combinations
+ * @param {string} code - The personality code to validate
+ * @returns {Promise<boolean>} - Whether the code is valid
+ */
+export const isValidPersonalityCode = async (code) => {
     if (!code || typeof code !== 'string' || code.length !== 10) {
         return false;
     }
 
     // Check if all characters are letters
-    return /^[A-Za-z]{10}$/.test(code);
+    if (!/^[A-Za-z]{10}$/.test(code)) {
+        return false;
+    }
+
+    // Load valid codes and check if this code exists
+    const validCodes = await loadValidPersonalityCodes();
+    if (validCodes) {
+        return validCodes.has(code.toUpperCase());
+    }
+
+    // Fallback to basic format validation if file loading failed
+    return true;
 };
