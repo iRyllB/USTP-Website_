@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import NavigationBar from "../components/navBar";
 import Footer from "../components/footer";
 import HeroSection from "../components/HeroSection";
-import { isValidPersonalityCode } from "../lib/gemini";
+import { isValidPersonalityCode } from "../lib/personalityCodes";
 import "./personalityCodeInput.css";
 
 export default function PersonalityCodeInput() {
@@ -72,7 +72,7 @@ export default function PersonalityCodeInput() {
             return;
         }
 
-        const isValid = await isValidPersonalityCode(personalityCode);
+        const isValid = isValidPersonalityCode(personalityCode);
         if (!isValid) {
             setError('Please enter a valid personality code. This combination is not recognized in our system.');
             setIsSubmitting(false);

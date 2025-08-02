@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import NavigationBar from "../components/navBar";
 import Footer from "../components/footer";
-import { analyzePersonalityCode, isValidPersonalityCode } from "../lib/gemini";
+import { analyzePersonalityCode } from "../lib/gemini";
+import { isValidPersonalityCode } from "../lib/personalityCodes";
 import "./personalityTest.css";
 
 export default function PersonalityTest() {
@@ -18,7 +19,7 @@ export default function PersonalityTest() {
                 setError(null);
 
                 // Validate the personality code
-                const isValid = await isValidPersonalityCode(id);
+                const isValid = isValidPersonalityCode(id);
                 if (!isValid) {
                     throw new Error("Invalid personality code. Please provide a valid 10-letter code.");
                 }
