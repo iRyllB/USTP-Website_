@@ -78,6 +78,9 @@ The CMS provides a secure admin interface for managing content:
 
 The application requires the following environment variables to be set in the `.env` file:
 
+### Security Note
+The Gemini API integration has been updated for security. The API key is now handled server-side only and never exposed to the browser. See `SECURITY_SETUP.md` for detailed migration instructions.
+
 ```
 # Supabase Configuration
 REACT_APP_SUPABASE_URL=your-supabase-url
