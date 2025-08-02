@@ -1,3 +1,5 @@
+import { isValidPersonalityCode } from './personalityCodes.js';
+
 const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
@@ -92,7 +94,7 @@ export const analyzePersonalityCode = async (personalityCode) => {
     }
 
     // Validate the personality code against the valid combinations
-    const isValid = await isValidPersonalityCode(personalityCode);
+    const isValid = isValidPersonalityCode(personalityCode);
     if (!isValid) {
         throw new Error('INVALID_CODE');
     }
@@ -205,59 +207,4 @@ export const analyzePersonalityCode = async (personalityCode) => {
     }
 };
 
-// Load valid personality codes from the text file
-let validPersonalityCodes = null;
 
-/**
- * Loads the valid personality codes from the text file
- * @returns {Promise<Set<string>>} - Set of valid personality codes
- */
-const loadValidPersonalityCodes = async () => {
-    if (validPersonalityCodes) {
-        return validPersonalityCodes;
-    }
-
-    try {
-        const response = await fetch('/personality_codes.txt');
-        if (!response.ok) {
-            throw new Error('Failed to load personality codes file');
-        }
-
-        const text = await response.text();
-        const codes = text.split('\n')
-            .map(line => line.trim().toUpperCase())
-            .filter(line => line.length === 10);
-
-        validPersonalityCodes = new Set(codes);
-        return validPersonalityCodes;
-    } catch (error) {
-        console.error('Error loading personality codes:', error);
-        // Fallback to basic format validation if file can't be loaded
-        return null;
-    }
-};
-
-/**
- * Validates if a personality code is in the list of valid combinations
- * @param {string} code - The personality code to validate
- * @returns {Promise<boolean>} - Whether the code is valid
- */
-export const isValidPersonalityCode = async (code) => {
-    if (!code || typeof code !== 'string' || code.length !== 10) {
-        return false;
-    }
-
-    // Check if all characters are letters
-    if (!/^[A-Za-z]{10}$/.test(code)) {
-        return false;
-    }
-
-    // Load valid codes and check if this code exists
-    const validCodes = await loadValidPersonalityCodes();
-    if (validCodes) {
-        return validCodes.has(code.toUpperCase());
-    }
-
-    // Fallback to basic format validation if file loading failed
-    return true;
-};

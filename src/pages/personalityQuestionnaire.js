@@ -114,6 +114,7 @@ export default function PersonalityQuestionnaire() {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+
     const handleAnswerSelect = (questionId, value) => {
         setAnswers(prev => ({
             ...prev,
