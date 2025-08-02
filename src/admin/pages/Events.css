@@ -46,11 +46,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.search-container {
+.admin-search-container {
     flex: 1;
 }
 
-.search-input {
+.admin-search-input {
     width: 100%;
     padding: 12px 16px;
     border: 1px solid #e0e0e0;
@@ -59,7 +59,7 @@
     transition: border-color 0.2s ease;
 }
 
-.search-input:focus {
+.admin-search-input:focus {
     outline: none;
     border-color: #4285f4;
 }

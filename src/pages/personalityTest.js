@@ -173,11 +173,11 @@ export default function PersonalityTest() {
                             </section>
 
                             {/* Why Join GDSC Section */}
-                            {personalityData.coreType["Why join"] && (
+                            {personalityData.coreType["joinReason"] && (
                                 <section className="personality-section">
                                     <h2 className="section-title">Why Join GDG on Campus?</h2>
                                     <div className="why-join-content">
-                                        <p className="why-join-text">{personalityData.coreType["Why join"]}</p>
+                                        <p className="why-join-text">{personalityData.coreType["joinReason"]}</p>
                                     </div>
                                 </section>
                             )}

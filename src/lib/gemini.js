@@ -13,7 +13,7 @@ Summary: 4 - 6 sentence description of this core personality in the tech world
 Strengths: (list key strengths)
 Weakness: (list key weaknesses)
 Ideal Work: (roles or activities they'd enjoy most)
-Ideal Department for Core team: (Technology (Technology inclined) |Operations (Prefers structure) |Community Development (Loves interacting with people) | Communications (Creative person))
+Ideal Department for Core team: (Technology (Prefers technicalities) | Operations (Prefers structure or process) | Community Development (Loves interacting with people) | Communications (Creative, artistic person))
 Work Style Traits (Last 6 Letters):
 For each letter, briefly explain what it means about the person's way of working.
 
@@ -28,7 +28,7 @@ IMPORTANT: Respond with ONLY valid JSON in this exact format (no additional text
     "weaknesses": ["weakness1", "weakness2", "weakness3"],
     "idealWork": "roles or activities they'd enjoy most",
     "idealDepartment": "Technology or Operations or Community Development or Communications"
-    "Why join": "Why join google developer groups on campus? How it will benefit me and how it will help them grow as a developer. Respond as first person noun (you)."
+    "joinReason": "Why join google developer groups on campus? How it will benefit me and how it will help them grow as a developer. Respond as first person noun (i.e: You should..)."
   },
   "workStyleTraits": {
     "LETTER1": "Brief explanation",
@@ -73,8 +73,6 @@ B	Step Solver	Solves things one logical piece at a time
 V	Visionary Thinker	Starts with the big picture and works downward
 H	Hacker	Jumps into tools hands-on and figures it out fast
 K	Planner	Studies first, thinks before acting or testing
-
-Questions:
 
 
 `;
