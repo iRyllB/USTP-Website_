@@ -2,7 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-const supabaseServiceKey = process.env.REACT_APP_SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
     console.error('Missing Supabase environment variables:', {
@@ -17,11 +16,86 @@ export const supabase = createClient(
     supabaseAnonKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlydnlrd2xqemFqZmtyYXl0YmdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MjczMjIsImV4cCI6MjA1MjUwMzMyMn0.WzWYdut9GkGSjH5cehOcuc6YzZR5g-XQgZ3Kh9d_6UA'
 );
 
-// Admin client with service key (bypasses RLS) - only use for admin operations
-export const supabaseAdmin = supabaseServiceKey ? createClient(
-    supabaseUrl || 'https://yrvykwljzajfkraytbgr.supabase.co',
-    supabaseServiceKey
-) : null;
+/**
+ * Secure admin operations using server-side API
+ * This replaces the direct supabaseAdmin client to avoid exposing service key
+ */
+export const supabaseAdmin = {
+    from: (table) => ({
+        select: async (columns = '*', options = {}) => {
+            const response = await fetch('/api/admin/supabase-admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${await getAuthToken()}`
+                },
+                body: JSON.stringify({
+                    action: 'select',
+                    table,
+                    columns,
+                    ...options
+                })
+            });
+            return await response.json();
+        },
+        insert: async (data) => {
+            const response = await fetch('/api/admin/supabase-admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${await getAuthToken()}`
+                },
+                body: JSON.stringify({
+                    action: 'insert',
+                    table,
+                    data
+                })
+            });
+            return await response.json();
+        },
+        update: async (data) => ({
+            eq: async (column, value) => {
+                const response = await fetch('/api/admin/supabase-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await getAuthToken()}`
+                    },
+                    body: JSON.stringify({
+                        action: 'update',
+                        table,
+                        data,
+                        id: value // Assuming 'id' column for now
+                    })
+                });
+                return await response.json();
+            }
+        }),
+        delete: () => ({
+            eq: async (column, value) => {
+                const response = await fetch('/api/admin/supabase-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await getAuthToken()}`
+                    },
+                    body: JSON.stringify({
+                        action: 'delete',
+                        table,
+                        id: value // Assuming 'id' column for now
+                    })
+                });
+                return await response.json();
+            }
+        })
+    })
+};
+
+// Helper function to get auth token
+async function getAuthToken() {
+    const { data: { session } } = await supabase.auth.getSession();
+    return session?.access_token || '';
+}
 
 // Auth helper functions
 export const signIn = async (email, password) => {
