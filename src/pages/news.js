@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import NavigationBar from "../components/navBar";
 import Footer from "../components/footer";
 import HeroSection from "../components/HeroSection";
@@ -15,6 +15,8 @@ export default function News() {
     const [error, setError] = useState(null);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortBy, setSortBy] = useState('newest');
     const postsPerPage = 10;
 
     useEffect(() => {
@@ -117,6 +119,36 @@ export default function News() {
         fetchBlogPosts(nextPage);
     };
 
+    // Filter and sort posts based on search term and sort option
+    const filteredAndSortedPosts = useMemo(() => {
+        let filtered = blogPosts.filter(post =>
+            post.heading.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (post.tagline && post.tagline.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            stripHtml(post.description).toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        switch (sortBy) {
+            case 'oldest':
+                return filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            case 'alphabetical':
+                return filtered.sort((a, b) => a.heading.localeCompare(b.heading));
+            default: // newest
+                return filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        }
+    }, [blogPosts, searchTerm, sortBy]);
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleSortChange = (e) => {
+        setSortBy(e.target.value);
+    };
+
+    const clearSearch = () => {
+        setSearchTerm('');
+    };
+
     return (
         <>
             <title>News</title>
@@ -128,9 +160,52 @@ export default function News() {
                     <div className="whats-new-section">
                         <h2>What's New</h2>
 
+                        {/* Search and Filter Controls */}
+                        <div className="news-controls">
+                            <div className="news-search-container">
+                                <div className="news-search-input-wrapper">
+                                    <svg className="news-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    <input
+                                        type="text"
+                                        placeholder="Search articles..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        className="news-search-input"
+                                    />
+                                    {searchTerm && (
+                                        <button onClick={clearSearch} className="news-clear-search" aria-label="Clear search">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </svg>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="news-sort-container">
+                                <select value={sortBy} onChange={handleSortChange} className="news-sort-select">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="alphabetical">A-Z</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Results Summary */}
+                        {searchTerm && (
+                            <div className="news-search-results-summary">
+                                <p>
+                                    {filteredAndSortedPosts.length} result{filteredAndSortedPosts.length !== 1 ? 's' : ''}
+                                    {searchTerm && ` for "${searchTerm}"`}
+                                </p>
+                            </div>
+                        )}
+
                         <div className="blog-posts">
-                            {blogPosts.length > 0 ? (
-                                blogPosts.map((post, index) => (
+                            {filteredAndSortedPosts.length > 0 ? (
+                                filteredAndSortedPosts.map((post, index) => (
                                     <div key={post.id} className="blog-post" data-aos="fade-up" data-aos-delay={index * 100}>
                                         <div className="post-image">
                                             <img 
@@ -154,7 +229,17 @@ export default function News() {
                                 ))
                             ) : !loading && !error ? (
                                 <div className="no-posts">
-                                    <p>No blog posts found. Check back soon for updates!</p>
+                                    <p>
+                                        {searchTerm
+                                            ? `No articles found matching "${searchTerm}". Try adjusting your search terms.`
+                                            : "No blog posts found. Check back soon for updates!"
+                                        }
+                                    </p>
+                                    {searchTerm && (
+                                        <button onClick={clearSearch} className="news-clear-search-button">
+                                            Clear Search
+                                        </button>
+                                    )}
                                 </div>
                             ) : null}
                             
@@ -167,23 +252,50 @@ export default function News() {
                             
                             {error && (
                                 <div className="error-container">
-                                    <p>Error: {error}</p>
+                                    <div className="error-icon">
+                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <line x1="15" y1="9" x2="9" y2="15"/>
+                                            <line x1="9" y1="9" x2="15" y2="15"/>
+                                        </svg>
+                                    </div>
+                                    <h3>Oops! Something went wrong</h3>
+                                    <p>We couldn't load the articles. Please check your connection and try again.</p>
                                     <button onClick={fetchBlogPosts} className="retry-button">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M1 4v6h6M23 20v-6h-6"/>
+                                            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                                        </svg>
                                         Try Again
                                     </button>
                                 </div>
                             )}
                         </div>
                         
-                        {hasMore && blogPosts.length > 0 && !loading && (
+                        {hasMore && blogPosts.length > 0 && !loading && !searchTerm && (
                             <div className="load-more-container">
-                                <button 
-                                    onClick={loadMore} 
+                                <button
+                                    onClick={loadMore}
                                     className="load-more-button"
                                     disabled={loading}
                                 >
-                                    Show More
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                                    </svg>
+                                    Load More Articles
                                 </button>
+                                <p className="posts-count">
+                                    Showing {blogPosts.length} articles
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Pagination info when searching */}
+                        {searchTerm && filteredAndSortedPosts.length > 0 && (
+                            <div className="pagination-info">
+                                <p>
+                                    Showing {filteredAndSortedPosts.length} of {blogPosts.length} articles
+                                </p>
                             </div>
                         )}
                     </div>

@@ -605,13 +605,13 @@ export default function BlogPosts() {
             )}
 
             <div className="events-filters">
-                <div className="search-container">
+                <div className="admin-search-container">
                     <input
                         type="text"
                         placeholder="Search blog posts..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="search-input"
+                        className="admin-search-input"
                     />
                                 </div>
                             </div>

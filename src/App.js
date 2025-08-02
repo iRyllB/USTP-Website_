@@ -7,6 +7,9 @@ import AboutUs from './pages/aboutUs';
 import Error from './pages/error';
 import FaQs from './pages/faq';
 import Article from "./pages/article";
+import PersonalityTest from "./pages/personalityTest";
+import PersonalityQuestionnaire from "./pages/personalityQuestionnaire";
+import PersonalityCodeInput from "./pages/personalityCodeInput";
 import AdminRoutes from './admin/routes/AdminRoutes';
 
 function App() {
@@ -19,10 +22,15 @@ function App() {
         <Route path="/news" element={<News/>} />
         <Route path="/aboutus" element={<AboutUs/>} />
         <Route path="/news/article/:id" element={<Article />} />
-        
+
+        {/* Personality Test Routes */}
+        <Route path="/personality-test" element={<PersonalityQuestionnaire />} />
+        <Route path="/personality-test/code" element={<PersonalityCodeInput />} />
+        <Route path="/personality-test/:id" element={<PersonalityTest />} />
+
         {/* Admin Routes */}
         <Route path="/admin/*" element={<AdminRoutes />} />
-        
+
         {/* 404 Route */}
         <Route path='*' element={<Error/>}/>
       </Routes>

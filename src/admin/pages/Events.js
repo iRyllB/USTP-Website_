@@ -694,13 +694,13 @@ export default function Events() {
             )}
 
             <div className="events-filters">
-                <div className="search-container">
+                <div className="admin-search-container">
                     <input
                         type="text"
                         placeholder="Search events..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="search-input"
+                        className="admin-search-input"
                     />
                 </div>
                 <div className="filter-controls">
