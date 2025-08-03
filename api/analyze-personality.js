@@ -142,8 +142,11 @@ export default async function handler(req, res) {
 
     // Check if API key is configured
     if (!GEMINI_API_KEY) {
-        console.error('Gemini API key is not configured');
-        return res.status(500).json({ error: 'Server configuration error' });
+        console.error('Gemini API key is not configured. Available env vars:', Object.keys(process.env).filter(key => key.includes('GEMINI')));
+        return res.status(500).json({
+            error: 'Server configuration error',
+            details: 'GEMINI_API_KEY environment variable is not set'
+        });
     }
 
     try {
