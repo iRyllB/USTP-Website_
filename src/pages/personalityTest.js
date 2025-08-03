@@ -11,12 +11,17 @@ export default function PersonalityTest() {
     const [personalityData, setPersonalityData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [hasAnalyzed, setHasAnalyzed] = useState(false);
 
     useEffect(() => {
         const analyzePersonality = async () => {
+            // Prevent duplicate calls in React StrictMode
+            if (hasAnalyzed) return;
+
             try {
                 setLoading(true);
                 setError(null);
+                setHasAnalyzed(true);
 
                 // Validate the personality code
                 const isValid = isValidPersonalityCode(id);
@@ -30,6 +35,7 @@ export default function PersonalityTest() {
 
             } catch (err) {
                 console.error("Error analyzing personality:", err);
+                setHasAnalyzed(false); // Reset on error to allow retry
 
                 // Handle specific error types
                 if (err.message === 'INVALID_CODE') {
@@ -42,16 +48,19 @@ export default function PersonalityTest() {
             }
         };
 
-        if (id) {
+        if (id && !hasAnalyzed) {
             analyzePersonality();
-        } else {
+        } else if (!id) {
             setError("No personality code provided");
             setLoading(false);
         }
-    }, [id]);
+    }, [id, hasAnalyzed]);
 
     const handleRetry = () => {
-        window.location.reload();
+        setHasAnalyzed(false);
+        setError(null);
+        setLoading(true);
+        setPersonalityData(null);
     };
 
     // Determine theme based on ideal department

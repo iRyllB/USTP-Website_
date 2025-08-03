@@ -74,7 +74,7 @@ IMPORTANT: Respond with ONLY valid JSON in this exact format (no additional text
     "weaknesses": ["weakness1", "weakness2", "weakness3"],
     "idealWork": "roles or activities they'd enjoy most",
     "idealDepartment": "Technology or Operations or Community Development or Communications",
-    "joinReason": "Why join google developer groups on campus? How it will benefit me and how it will help them grow as a developer. Respond as first person noun (i.e: You should..)."
+    "joinReason": "Answer the question: Why join "GDG on Campus"? How it will benefit me and how it will help them grow as a developer. You are convincing that person to join in two sentences."
   },
   "workStyleTraits": {
     "LETTER1": "Brief explanation",
@@ -86,26 +86,28 @@ IMPORTANT: Respond with ONLY valid JSON in this exact format (no additional text
   }
 }
 
-IMPORTANT: IF THE 10 LETTER COMBINATION IS INVALID, INVALID SEQUENCE AND NOT ON THE QUESTION CHOICES, RESPOND WITH THE FOLLOWING JSON ONLY:
-{
-  "error": "Invalid personality code"
-}
-
 For reference:
-🧩 Trait Decoder
-🎯 Core Personality (First 4 letters)
+Trait Decoder
+Core Personality (First 4 letters) - ALL VALID COMBINATIONS:
 Code	Title	Description
 IDCF	Solo Builder	Independent doer who loves building fast
 IDCA	Quiet Creative	Visual and detail-oriented, focused on design and UX
 IDSF	Silent Fixer	Calm problem-solver who handles systems and bugs
 IDSA	Data Whisperer	Analytical and research-driven, sees patterns
+ITCF	Independent Builder	Thoughtful creator who builds with careful planning
+ITCA	Thoughtful Designer	Independent creative who focuses on user experience
+ITSF	System Architect	Methodical problem-solver who designs robust systems
+ITSA	Quiet Analyst	Independent thinker, slow and deep problem-solver
 EDCF	Startup Hacker	Fast-paced builder, thrives in chaos
 EDCA	Team Designer	Design leader who bridges visual and technical
 EDSF	Tech Lead	System thinker who guides teams and ships solid work
 EDSA	Visionary Analyst	Sees trends, connects dots, builds insight from data
-ITSA	Quiet Analyst	Independent thinker, slow and deep problem-solver
+ETCF	Collaborative Builder	Extroverted thinker who builds through discussion
+ETCA	Creative Collaborator	Thoughtful designer who works well with teams
+ETSF	Strategic Leader	Organized thinker who leads through planning
+ETSA	Research Leader	Analytical extrovert who drives data-driven decisions
 
-🔧 Work Style Traits (Last 6 letters)
+Work Style Traits (Last 6 letters)
 Letter	Trait	Description
 R	Repeater	Prefers optimizing existing systems
 N	Navigator	Loves solving totally new problems
@@ -119,7 +121,6 @@ B	Step Solver	Solves things one logical piece at a time
 V	Visionary Thinker	Starts with the big picture and works downward
 H	Hacker	Jumps into tools hands-on and figures it out fast
 K	Planner	Studies first, thinks before acting or testing
-
 
 `;
 
@@ -205,45 +206,37 @@ export default async function handler(req, res) {
 
         // Try to extract JSON from the response
         let jsonString = '';
-        
-        // First, try to find JSON wrapped in code blocks
-        const codeBlockMatch = generatedText.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
-        if (codeBlockMatch) {
-            jsonString = codeBlockMatch[1].trim();
-        } else {
-            // Try to find JSON object directly
-            const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
+        try {
+            // Look for JSON block in markdown format
+            const jsonMatch = generatedText.match(/```json\s*([\s\S]*?)\s*```/);
             if (jsonMatch) {
-                jsonString = jsonMatch[0].trim();
+                jsonString = jsonMatch[1].trim();
             } else {
-                // Try to find JSON array (in case it's wrapped in an array)
-                const arrayMatch = generatedText.match(/\[[\s\S]*?\{[\s\S]*?\}[\s\S]*?\]/);
-                if (arrayMatch) {
-                    const parsed = JSON.parse(arrayMatch[0]);
-                    if (Array.isArray(parsed) && parsed.length > 0) {
-                        jsonString = JSON.stringify(parsed[0]);
-                    } else {
-                        jsonString = arrayMatch[0].trim();
-                    }
+                // Try to find JSON object directly
+                const directJsonMatch = generatedText.match(/\{[\s\S]*\}/);
+                if (directJsonMatch) {
+                    jsonString = directJsonMatch[0].trim();
+                } else {
+                    throw new Error('No JSON found in response');
                 }
             }
-        }
-
-        if (!jsonString) {
-            console.error('Could not extract JSON from Gemini response:', generatedText.substring(0, 500));
+        } catch (extractError) {
+            console.error('Error extracting JSON from response:', extractError);
             return res.status(500).json({ 
-                error: `Could not extract JSON from Gemini response. Response was: ${generatedText.substring(0, 500)}...` 
+                error: 'Failed to extract JSON from AI response' 
             });
         }
 
+        // Parse the JSON
         let personalityAnalysis;
         try {
             personalityAnalysis = JSON.parse(jsonString);
         } catch (parseError) {
-            console.error('Failed to parse JSON response:', parseError.message, jsonString);
+            console.error('Error parsing JSON:', parseError);
+            console.error('JSON string:', jsonString);
             
-            // Check if the response was truncated/incomplete
-            if (jsonString.length > 0 && !jsonString.includes('}')) {
+            // Provide more specific error messages
+            if (jsonString.includes('"summary"') && !jsonString.includes('"strengths"')) {
                 return res.status(500).json({ 
                     error: 'The AI response was incomplete or truncated. Please try again.' 
                 });
