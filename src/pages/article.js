@@ -159,7 +159,7 @@ export default function Article() {
                                     <span className="meta-separator">•</span>
                                     <p className="reading-time">{estimateReadingTime(article.description)} min read</p>
                                     <span className="meta-separator">•</span>
-                                    <p className="article-author">{article.author_id || "GDSC USTP"}</p>
+                                    <p className="article-author">{article.author_id || "GDG USTP"}</p>
                                 </div>
                                 {article.tagline && <p className="article-tagline">{article.tagline}</p>}
                             </div>
@@ -207,7 +207,7 @@ export default function Article() {
                                         <h3>Tags</h3>
                                         <div className="tags-container">
                                             {/* If you have tags, map them here */}
-                                            <span className="tag">GDSC</span>
+                                            <span className="tag">GDG</span>
                                             <span className="tag">USTP</span>
                                             <span className="tag">News</span>
                                         </div>

@@ -91,7 +91,7 @@ export default function PersonalityCodeInput() {
 
     return (
         <>
-            <title>Enter Personality Code - GDSC USTP</title>
+            <title>Enter Personality Code - GDG USTP</title>
             <NavigationBar />
             <main className="personality-code-input-page">
                 <HeroSection title="Enter Your Personality Code" theme="home" />

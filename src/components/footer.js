@@ -12,7 +12,7 @@ export default function Footer() {
                     <img
                         src={Logo}
                         className="footer-logo"
-                        alt="GDSC Logo"
+                        alt="GDG Logo"
                     />
                     <div className="footer-logo-text">
                         <div className="footer-title">
@@ -54,7 +54,7 @@ export default function Footer() {
             <div className="footer-bottom">
                 <div className="footer-copyright-container">
                     <div className="footer-copyright">
-                        (C) GDSC-USTP All Rights Reserved
+                        (C) GDG-USTP All Rights Reserved
                     </div>
                     <div className="footer-policy-links">
                         <div className="footer-dot" />

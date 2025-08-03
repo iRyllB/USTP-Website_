@@ -194,7 +194,7 @@ export default function Home() {
                         <h1>Inspiring Members</h1>
                         <div className="gallery-container">
                         <div className="text-content">
-                            <div className="quote">"GDSC revolutionized the way I work with its innovative and user-friendly products."</div>
+                            <div className="quote">"GDG revolutionized the way I work with its innovative and user-friendly products."</div>
                             <div className="reviewer">- Some Random Review</div>
                             <a href="#" className="cta-link">See More of Stranger's Story →</a>
                             </div>

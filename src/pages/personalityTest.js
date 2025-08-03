@@ -71,7 +71,8 @@ export default function PersonalityTest() {
         if (departmentLower.includes('technology')) return 'technology-theme';
         if (departmentLower.includes('operations')) return 'operations-theme';
         if (departmentLower.includes('communications')) return 'communications-theme';
-        if (departmentLower.includes('community')) return 'community-theme';
+        if (departmentLower.includes('comdev')) return 'community-theme';
+        if (departmentLower.includes('Community Development')) return 'community-theme';
         return '';
     };
 
@@ -182,7 +183,7 @@ export default function PersonalityTest() {
                                 </div>
                             </section>
 
-                            {/* Why Join GDSC Section */}
+                            {/* Why Join GDG Section */}
                             {personalityData.coreType["joinReason"] && (
                                 <section className="personality-section">
                                     <h2 className="section-title">Why Join GDG on Campus?</h2>
@@ -205,7 +206,7 @@ export default function PersonalityTest() {
                                             to="/contact"
                                             className="register-cta-button"
                                         >
-                                            Join GDSC USTP
+                                            Join GDG USTP
                                         </Link>
                                         <p className="cta-subtitle">Start your developer journey with us!</p>
                                     </div>
