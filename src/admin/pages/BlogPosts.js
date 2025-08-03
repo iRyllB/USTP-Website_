@@ -343,7 +343,7 @@ export default function BlogPosts() {
             const filePath = `blog-thumbnails/${fileName}`;
 
             // Upload file to Supabase Storage
-            const { error: uploadError, data } = await supabase.storage
+            const { error: uploadError } = await supabase.storage
                 .from('images')
                 .upload(filePath, file, {
                     cacheControl: '3600',
@@ -395,7 +395,7 @@ export default function BlogPosts() {
 
             if (selectedPost) {
                 // Update existing post
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('blog_posts')
                     .update({
                         ...postData,
@@ -406,7 +406,7 @@ export default function BlogPosts() {
                 if (error) throw error;
             } else {
                 // Create new post
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('blog_posts')
                     .insert([{
                         ...postData,

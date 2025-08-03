@@ -44,7 +44,7 @@ function isValidPersonalityCode(code) {
     return true;
 }
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY;
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 const SYSTEM_PROMPT = `You are a personality decoder for a tech-style personality quiz. The user will give you a 10-letter code.
@@ -142,10 +142,11 @@ export default async function handler(req, res) {
 
     // Check if API key is configured
     if (!GEMINI_API_KEY) {
-        console.error('Gemini API key is not configured. Available env vars:', Object.keys(process.env).filter(key => key.includes('GEMINI')));
+        console.error('Gemini API key is not configured');
+        console.error('Environment variables available:', Object.keys(process.env).filter(key => key.includes('GEMINI') || key.includes('API')));
         return res.status(500).json({
             error: 'Server configuration error',
-            details: 'GEMINI_API_KEY environment variable is not set'
+            debug: process.env.NODE_ENV || 'unknown'
         });
     }
 
