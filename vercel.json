@@ -1,11 +1,5 @@
 {
-  "buildCommand": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
-  "build": {
-    "env": {
-      "ESLINT_NO_DEV_ERRORS": "true",
-      "DISABLE_ESLINT_PLUGIN": "true"
-    }
-  },
+  "buildCommand": "npm run build:vercel",
   "functions": {
     "api/analyze-personality.js": {
       "maxDuration": 30

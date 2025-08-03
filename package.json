@@ -39,7 +39,8 @@
     "server": "node --max-http-header-size=32768 server.js",
     "dev": "npm run build && npm run server",
     "start:prod": "npm run build && npm run server",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build:vercel",
+    "build:vercel": "cross-env CI=false DISABLE_ESLINT_PLUGIN=true react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -58,5 +59,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0"
   }
 }
