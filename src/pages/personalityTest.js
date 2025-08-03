@@ -71,7 +71,8 @@ export default function PersonalityTest() {
         if (departmentLower.includes('technology')) return 'technology-theme';
         if (departmentLower.includes('operations')) return 'operations-theme';
         if (departmentLower.includes('communications')) return 'communications-theme';
-        if (departmentLower.includes('community')) return 'community-theme';
+        if (departmentLower.includes('comdev')) return 'community-theme';
+        if (departmentLower.includes('Community Development')) return 'community-theme';
         return '';
     };
 

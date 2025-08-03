@@ -20,7 +20,7 @@
   --accent-color: rgba(235, 72, 59, 0.1);
 }
 
-.personality-test-page.operations-theme {
+.personality-test-page.community-theme {
   --primary-color: #4EA865;
   --secondary-color: #1C793A;
   --accent-color: rgba(78, 168, 101, 0.1);
@@ -32,7 +32,7 @@
   --accent-color: rgba(251, 193, 14, 0.1);
 }
 
-.personality-test-page.community-theme {
+.personality-test-page.operations-theme {
   --primary-color: #498CF6;
   --secondary-color: #236AD1;
   --accent-color: rgba(73, 140, 246, 0.1);

@@ -59,7 +59,7 @@ Summary: 4 - 6 sentence description of this core personality in the tech world
 Strengths: (list key strengths)
 Weakness: (list key weaknesses)
 Ideal Work: (roles or activities they'd enjoy most)
-Ideal Department for Core team: (Technology (Prefers technicalities) | Operations (Prefers structure or process) | Community Development (Loves interacting with people) | Communications (Creative, artistic person))
+Ideal Department for Core team: (Technology (Prefers technology and working with obscure information) | Operations (Prefers structure or process) | Community Development (ComDev) - Loves community and spreading technology and working with people | Communications (Creative, artistic person))
 Work Style Traits (Last 6 Letters):
 For each letter, briefly explain what it means about the person's way of working.
 
@@ -73,7 +73,7 @@ IMPORTANT: Respond with ONLY valid JSON in this exact format (no additional text
     "strengths": ["strength1", "strength2", "strength3"],
     "weaknesses": ["weakness1", "weakness2", "weakness3"],
     "idealWork": "roles or activities they'd enjoy most",
-    "idealDepartment": "Technology or Operations or Community Development or Communications",
+    "idealDepartment": "Technology | Operations | ComDev | Communications",
     "joinReason": "Answer the question: Why join "GDG on Campus"? How it will benefit me and how it will help them grow as a developer. You are convincing that person to join in two sentences."
   },
   "workStyleTraits": {
