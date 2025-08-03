@@ -157,7 +157,7 @@ export default function PersonalityQuestionnaire() {
 
     return (
         <>
-            <title>Personality Quiz - GDSC USTP</title>
+            <title>Personality Quiz - GDG USTP</title>
             <NavigationBar />
             <main className="personality-questionnaire-page">
                 <HeroSection title="Personality Test" theme="home" />

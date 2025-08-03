@@ -39,7 +39,7 @@ export default function NavigationBar() {
             <div className="navbar-container">
                 <div className="navbar-content">
                     <NavLink to="/">
-                        <img src={Logo} className="navbar-logo" alt="GDSC Logo" />
+                        <img src={Logo} className="navbar-logo" alt="GDG Logo" />
                     </NavLink>
                     
                     <div className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>

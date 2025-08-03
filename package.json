@@ -39,7 +39,7 @@
     "server": "node --max-http-header-size=32768 server.js",
     "dev": "npm run build && npm run server",
     "start:prod": "npm run build && npm run server",
-    "vercel-build": "CI=false npm run build"
+    "vercel-build": "npm run build"
   },
   "eslintConfig": {
     "extends": [

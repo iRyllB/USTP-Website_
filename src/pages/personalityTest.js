@@ -182,7 +182,7 @@ export default function PersonalityTest() {
                                 </div>
                             </section>
 
-                            {/* Why Join GDSC Section */}
+                            {/* Why Join GDG Section */}
                             {personalityData.coreType["joinReason"] && (
                                 <section className="personality-section">
                                     <h2 className="section-title">Why Join GDG on Campus?</h2>
@@ -205,7 +205,7 @@ export default function PersonalityTest() {
                                             to="/contact"
                                             className="register-cta-button"
                                         >
-                                            Join GDSC USTP
+                                            Join GDG USTP
                                         </Link>
                                         <p className="cta-subtitle">Start your developer journey with us!</p>
                                     </div>

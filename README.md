@@ -1,13 +1,13 @@
 # GDGOC USTP Website
 
-This is the official **GDGOC USTP (Google Developer Groups on Campus - University of Science and Technology of Southern Philippines)** website. It showcases GDSC events, accomplishments, announcements, and other essential information.
+This is the official **GDGOC USTP (Google Developer Groups on Campus - University of Science and Technology of Southern Philippines)** website. It showcases GDG events, accomplishments, announcements, and other essential information.
 
 ## Features
 
 - **Dynamic Pages**: Showcases important sections like Home, News, Events, and About Us with up-to-date content.
 - **Responsive Design**: Ensures the site works well on a variety of screen sizes, including mobile devices, tablets, and desktops.
-- **Event Showcase**: A dedicated page to highlight upcoming and past GDSC USTP events.
-- **Announcements Section**: Stay updated with the latest news and developments from the GDSC USTP community.
+- **Event Showcase**: A dedicated page to highlight upcoming and past GDG USTP events.
+- **Announcements Section**: Stay updated with the latest news and developments from the GDG USTP community.
 - **Team Information**: The "About Us" section provides details about the club, its mission, vision, and members.
 - **Public API**: RESTful API for accessing events and blog posts
 - **Admin Dashboard**: Secure admin interface for managing content
@@ -16,9 +16,9 @@ This is the official **GDGOC USTP (Google Developer Groups on Campus - Universit
 ## Pages
 
 - **Home**: The main landing page, with a summary of the latest news and featured events.
-- **News**: Displays the latest announcements, updates, and other relevant news from GDSC USTP.
+- **News**: Displays the latest announcements, updates, and other relevant news from GDG USTP.
 - **Events**: Showcases the upcoming and past events with detailed descriptions.
-- **About Us**: Learn more about GDSC USTP, including the club's mission, vision, and the team behind it.
+- **About Us**: Learn more about GDG USTP, including the club's mission, vision, and the team behind it.
 
 ## Table of Contents
 
@@ -36,7 +36,7 @@ This is the official **GDGOC USTP (Google Developer Groups on Campus - Universit
 To set up the project locally:
 
 ```bash
-git clone git clone https://github.com/gdscustp/USTP-Website.git
+git clone git clone https://github.com/GDGustp/USTP-Website.git
 cd USTP-Website
 npm install
 ```
@@ -66,7 +66,7 @@ This creates a production-ready version of the website in the `build` folder.
 
 ## CMS Development
 
-CMS Admin interface is accessible in `/admin` endpoint. [HERE](https://gdsc-ustp.vercel.app/admin/login)
+CMS Admin interface is accessible in `/admin` endpoint. [HERE](https://GDG-ustp.vercel.app/admin/login)
 
 The CMS provides a secure admin interface for managing content:
 - Event Management: Create, update, and delete events
