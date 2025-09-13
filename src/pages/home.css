@@ -1941,12 +1941,21 @@ html {
     background-color: #EB483B;
     color: white;
     border: none;
+    margin: 0 -30px;
+}
+
+.cta-button.primary span {
+background-color: #1C793A;
+border-radius: 30px;
+padding: 10px 20px;
+
 }
 
 .cta-button.secondary {
     background-color: transparent;
     color: #498CF6;
     border: 2px solid #498CF6;
+    margin: 0 -10px;
 }
 
 .cta-button.primary:hover {
@@ -2022,6 +2031,14 @@ html {
         max-width: 200px;
         padding: 12px 20px;
         font-size: 14px;
+    }
+    
+    .cta-button.primary {
+        margin: 0;
+    }
+    
+    .cta-button.secondary {
+        margin: 0;
     }
 }
 
