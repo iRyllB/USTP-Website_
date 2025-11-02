@@ -80,7 +80,7 @@
 }
 
 .circle-7 {
-  width: clamp(240px, 70vmin, 1100px);
+  width: clamp(240px, 90vmin, 1100px);
   aspect-ratio: 1 / 1;
   transform-origin: center;
   will-change: transform;

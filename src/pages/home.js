@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useSpring, animated, config } from 'react-spring';
+import * as Sentry from '@sentry/react';
+
 
 export default function Home() {
     const [showPageContent, setShowPageContent] = useState(false);
@@ -100,6 +102,7 @@ export default function Home() {
                                 Learn More
                             </button>
                         )}
+                        
                     </div>
                 </header>
 
@@ -135,7 +138,7 @@ export default function Home() {
                                 <div className="home-text-container">
                                     <h2 className="home-info-title">Lorem ipsum dolor sit amet</h2>
                                     <p className="home-info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan.</p>
-                                    <Link to="/aboutus" style={{ textDecoration: 'none' }}>
+                                    <Link to="/about-us" style={{ textDecoration: 'none' }}>
                                         <button className="home-learn-more-button">
                                             <span className="home-learn-more-text">Learn More</span>
                                         </button>
