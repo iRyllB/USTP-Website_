@@ -1,10 +1,10 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import * as Sentry from '@sentry/react';
 import Home from './pages/home';
 import Events from './pages/events';
 import News from './pages/news';
 import AboutUs from './pages/aboutUs';
+import MeetTheTeam from './pages/meetTheTeam';
 import Error from './pages/error';
 import FaQs from './pages/faq';
 import Article from "./pages/article";
@@ -18,13 +18,13 @@ import Terms from './pages/terms';
 function App() {
   return (
     <div className="App">
-      <ErrorButton />
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/events" element={<Events/>} />
         <Route path="/faqs" element={<FaQs/>} />
         <Route path="/news" element={<News/>} />
-        <Route path="/aboutus" element={<AboutUs/>} />
+        <Route path="/about-us" element={<AboutUs/>} />
+        <Route path="/team" element={<MeetTheTeam/>} />
         <Route path="/news/article/:id" element={<Article />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/terms" element={<Terms />} />

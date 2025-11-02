@@ -75,7 +75,7 @@ export default function NavigationBar() {
                             Events
                         </NavLink>
                         <NavLink
-                            to="/aboutus"
+                            to="/about-us"
                             className={({isActive}) => isActive ? "nav-link active" : "nav-link"}
                             onClick={handleNavClick}
                         >
