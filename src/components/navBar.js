@@ -19,8 +19,12 @@ export default function NavigationBar() {
         setIsMenuOpen(false);
         document.body.classList.remove('menu-open');
     }
+
+    const handleNavClick = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        closeMenu();
+    }
     
-    // Close menu when window is resized to desktop size
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 768 && isMenuOpen) {
@@ -52,32 +56,32 @@ export default function NavigationBar() {
                         <NavLink
                             to="/"
                             className={({isActive}) => isActive ? "nav-link active" : "nav-link"}
-                            onClick={closeMenu}
+                            onClick={handleNavClick}
                         >
                             Home
                         </NavLink>
                         <NavLink
                             to="/news"
                             className={({isActive}) => isActive ? "nav-link active" : "nav-link"}
-                            onClick={closeMenu}
+                            onClick={handleNavClick}
                         >
                             News
                         </NavLink>
                         <NavLink
                             to="/events"
                             className={({isActive}) => isActive ? "nav-link active" : "nav-link"}
-                            onClick={closeMenu}
+                            onClick={handleNavClick}
                         >
                             Events
                         </NavLink>
                         <NavLink
                             to="/aboutus"
                             className={({isActive}) => isActive ? "nav-link active" : "nav-link"}
-                            onClick={closeMenu}
+                            onClick={handleNavClick}
                         >
                             About Us
                         </NavLink>
-                        <button className="register-button mobile-register" onClick={closeMenu}>
+                        <button className="register-button mobile-register" onClick={handleNavClick}>
                             Register Now
                         </button>
                     </nav>
@@ -88,7 +92,6 @@ export default function NavigationBar() {
                 </div>
             </div>
             
-            {/* Overlay for mobile menu */}
             <div className={`menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={closeMenu}></div>
         </>
     );
