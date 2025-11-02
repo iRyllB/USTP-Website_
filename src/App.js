@@ -1,5 +1,6 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 import Home from './pages/home';
 import Events from './pages/events';
 import News from './pages/news';
@@ -17,6 +18,7 @@ import Terms from './pages/terms';
 function App() {
   return (
     <div className="App">
+      <ErrorButton />
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/events" element={<Events/>} />
