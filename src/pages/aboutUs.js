@@ -7,14 +7,17 @@ import sampleImage1 from '../assets/sample.png';
 import sampleImage2 from '../assets/sample.png';
 import storyImage from '../assets/story.png';
 import { useEffect, useState } from "react";
+import { getFeaturedMembers, getGroupColor } from '../data/team';
 
 export default function AboutUs() {
     const [showMoreHistory, setShowMoreHistory] = useState(false);
-    const [showAllTeam, setShowAllTeam] = useState(false);
     const [showMoreOperations, setShowMoreOperations] = useState(false);
     const [showMoreTechnology, setShowMoreTechnology] = useState(false);
     const [showMoreCommunications, setShowMoreCommunications] = useState(false);
     const [showMoreCommunityRelations, setShowMoreCommunityRelations] = useState(false);
+    
+    // Get featured team members for preview
+    const featuredMembers = getFeaturedMembers(3);
     
     // Force image preloading to ensure they're available
     useEffect(() => {
@@ -188,110 +191,50 @@ export default function AboutUs() {
                     <h2 className="team-section-title">Executives</h2>
                     
                     <div className="team-members-row">
-                        <div className="team-member-card">
-                            <div className="team-member-image" style={{ 
-                                backgroundImage: `url(${sampleImage1})`,
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                backgroundRepeat: 'no-repeat'
-                            }}></div>
-                            <div className="team-member-info">
-                                <div className="team-member-text">
-                                    <h3 className="team-member-name">Jewel Rose Daguinotas</h3>
-                                    <p className="team-member-position">GDG on Campus Lead</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="team-member-card">
-                            <div className="team-member-image" style={{ 
-                                backgroundImage: `url(${sampleImage1})`,
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                backgroundRepeat: 'no-repeat'
-                            }}></div>
-                            <div className="team-member-info">
-                                <div className="team-member-text">
-                                    <h3 className="team-member-name">Hannah Dennisse Aque</h3>
-                                    <p className="team-member-position">Chief Operating Officer</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="team-member-card">
-                            <div className="team-member-image" style={{ 
-                                backgroundImage: `url(${sampleImage1})`,
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                backgroundRepeat: 'no-repeat'
-                            }}></div>
-                            <div className="team-member-info">
-                                <div className="team-member-text">
-                                    <h3 className="team-member-name">Kent Jasper Sisi</h3>
-                                    <p className="team-member-position">Chief Technology Officer</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {showAllTeam && (
-                            <div className="additional-team-members">
-                                <div className="team-member-card">
+                        {featuredMembers.map(member => {
+                            const groupColor = getGroupColor(member.group);
+                            return (
+                                <div 
+                                    key={member.id} 
+                                    className="team-member-card"
+                                    style={{ borderColor: groupColor }}
+                                >
                                     <div className="team-member-image" style={{ 
-                                        backgroundImage: `url(${sampleImage2})`,
+                                        backgroundImage: `url(${member.image})`,
                                         backgroundPosition: 'center',
                                         backgroundSize: 'cover',
                                         backgroundRepeat: 'no-repeat'
-                                    }}></div>
-                                    <div className="team-member-info">
+                                    }}>
+                                        <img 
+                                            src={member.image} 
+                                            alt={member.alt}
+                                            loading="lazy"
+                                            style={{ 
+                                                width: '1px', 
+                                                height: '1px', 
+                                                opacity: 0 
+                                            }} 
+                                        />
+                                    </div>
+                                    <div 
+                                        className="team-member-info"
+                                        style={{ backgroundColor: groupColor }}
+                                    >
                                         <div className="team-member-text">
-                                            <h3 className="team-member-name">Ken Ocangas Tupino</h3>
-                                            <p className="team-member-position">Chief Communications Officer</p>
+                                            <h3 className="team-member-name">{member.name}</h3>
+                                            <p className="team-member-position">{member.role}</p>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div className="team-member-card">
-                                    <div className="team-member-image" style={{ 
-                                        backgroundImage: `url(${sampleImage2})`,
-                                        backgroundPosition: 'center',
-                                        backgroundSize: 'cover',
-                                        backgroundRepeat: 'no-repeat'
-                                    }}></div>
-                                    <div className="team-member-info">
-                                        <div className="team-member-text">
-                                            <h3 className="team-member-name">Andrew Ulysess Bautro</h3>
-                                            <p className="team-member-position">Mentor</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="team-member-card">
-                                    <div className="team-member-image" style={{ 
-                                        backgroundImage: `url(${sampleImage2})`,
-                                        backgroundPosition: 'center',
-                                        backgroundSize: 'cover',
-                                        backgroundRepeat: 'no-repeat'
-                                    }}></div>
-                                    <div className="team-member-info">
-                                        <div className="team-member-text">
-                                            <h3 className="team-member-name">Kent Jasper Cabunoc Sisi</h3>
-                                            <p className="team-member-position">Pogi lang</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                            );
+                        })}
                     </div>
                     
                     <div className="show-all-container">
-                        <button 
-                            className="show-all-button"
-                            onClick={() => setShowAllTeam(!showAllTeam)}
-                        >
-                            <span className="show-all-text">{showAllTeam ? 'Show Less' : 'Show All'}</span>
-                            <div className="show-all-icon" style={{ 
-                                transform: showAllTeam ? 'rotate(270deg)' : 'rotate(90deg)'
-                            }}></div>
-                        </button>
+                        <Link to="/team" className="show-all-button">
+                            <span className="show-all-text">View All</span>
+                            <div className="show-all-icon"></div>
+                        </Link>
                     </div>
                 </div>
             </section>
