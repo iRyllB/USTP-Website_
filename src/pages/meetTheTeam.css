@@ -41,15 +41,16 @@
     padding: 16px 24px;
     font-family: 'Google Sans', sans-serif;
     font-size: 18px;
-    border: 2px solid #498CF6;
+    border: 2px solid #E0E0E0;
     border-radius: 50px;
     outline: none;
     transition: all 0.3s ease;
 }
 
 .search-input:focus {
-    border-color: #EB483B;
-    box-shadow: 0 0 0 3px rgba(235, 72, 59, 0.1);
+    outline: none;
+    border-color: #498CF6;
+    box-shadow: 0 0 0 3px rgba(73, 140, 246, 0.1);
 }
 
 .search-input::placeholder {
@@ -72,7 +73,7 @@
     padding: 16px 32px;
     gap: 10px;
     height: 55px;
-    border: 2px solid;
+    border: 2px solid #498CF6;
     border-radius: 100px;
     background-color: transparent;
     font-family: 'Google Sans', sans-serif;
@@ -81,21 +82,24 @@
     font-size: 18px;
     line-height: 25px;
     text-align: center;
+    color: #498CF6;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
 }
 
 .filter-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(73, 140, 246, 0.1);
 }
 
 .filter-btn:focus-visible {
-    outline: 3px solid #EB483B;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(73, 140, 246, 0.2);
 }
 
 .filter-btn.active {
+    background-color: #498CF6;
+    color: #FFFFFF;
     font-weight: 700;
 }
 
@@ -176,7 +180,7 @@
 
 .team-card-role {
     width: 100%;
-    font-family: 'Google Sans', sans-serif;
+    font-family:'Google-Sans', 'Open Sans', sans-serif, Arial;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;

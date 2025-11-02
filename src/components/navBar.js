@@ -74,13 +74,24 @@ export default function NavigationBar() {
                         >
                             Events
                         </NavLink>
-                        <NavLink
-                            to="/about-us"
-                            className={({isActive}) => isActive ? "nav-link active" : "nav-link"}
-                            onClick={handleNavClick}
-                        >
-                            About Us
-                        </NavLink>
+                        <div className="nav-dropdown">
+                            <NavLink
+                                to="/about-us"
+                                className={({isActive}) => isActive ? "nav-link active" : "nav-link"}
+                                onClick={handleNavClick}
+                            >
+                                About Us
+                            </NavLink>
+                            <div className="dropdown-menu">
+                                <NavLink
+                                    to="/team"
+                                    className="dropdown-link"
+                                    onClick={handleNavClick}
+                                >
+                                    Meet the Team
+                                </NavLink>
+                            </div>
+                        </div>
                         <button className="register-button mobile-register" onClick={handleNavClick}>
                             Register Now
                         </button>
