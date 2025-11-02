@@ -54,7 +54,7 @@ export default function MeetTheTeam() {
             <title>Meet the Team</title>
             <NavigationBar />
             
-            <HeroSection title="Meet the Team" theme="aboutus" />
+            <HeroSection title="About Us" theme="aboutus" />
             
             <section className="meet-team-page">
                 <div className="meet-team-container">
@@ -79,25 +79,16 @@ export default function MeetTheTeam() {
                             >
                                 All Teams
                             </button>
-                            {groups.map(group => {
-                                const groupColor = getGroupColor(group);
-                                const isActive = selectedGroup === group;
-                                return (
-                                    <button
-                                        key={group}
-                                        className={`filter-btn ${isActive ? 'active' : ''}`}
-                                        onClick={() => setSelectedGroup(group)}
-                                        aria-pressed={isActive}
-                                        style={{
-                                            borderColor: groupColor,
-                                            color: isActive ? '#FFFFFF' : groupColor,
-                                            backgroundColor: isActive ? groupColor : 'transparent'
-                                        }}
-                                    >
-                                        {group}
-                                    </button>
-                                );
-                            })}
+                            {groups.map(group => (
+                                <button
+                                    key={group}
+                                    className={`filter-btn ${selectedGroup === group ? 'active' : ''}`}
+                                    onClick={() => setSelectedGroup(group)}
+                                    aria-pressed={selectedGroup === group}
+                                >
+                                    {group}
+                                </button>
+                            ))}
                         </div>
                     </div>
                     

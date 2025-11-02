@@ -68,7 +68,11 @@ a[href="/events"].active {
   background-color: #4EA865;
 }
 
-a[href="/aboutus"].active {
+a[href="/about-us"].active {
+  background-color: #FBC10E;
+}
+
+a[href="/team"].active {
   background-color: #FBC10E;
 }
 
@@ -92,6 +96,51 @@ a[href="/aboutus"].active {
 
 .mobile-register {
   display: none;
+}
+
+/* Dropdown Menu */
+.nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-link {
+  display: block;
+  padding: 12px 20px;
+  color: #232527;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dropdown-link:hover {
+  background-color: rgba(251, 193, 14, 0.1);
+  color: #FBC10E;
 }
 
 /* Hamburger Menu */
@@ -187,6 +236,30 @@ body.menu-open {
     display: block;
     width: 100%;
     margin-top: 20px;
+  }
+  
+  /* Mobile dropdown styles */
+  .nav-dropdown {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  
+  .dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    margin-top: 8px;
+    padding: 0;
+    background-color: rgba(251, 193, 14, 0.05);
+    border-radius: 8px;
+  }
+  
+  .dropdown-link {
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }
 
